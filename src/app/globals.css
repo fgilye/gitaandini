@@ -1,26 +1,130 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #FDFBF7; /* Light Warm Alabaster/Cream */
+  --foreground: #0B1D17; /* Dark Forest Green for text contrast */
+  --card: #FFFFFF; /* Clean White cards */
+  --card-foreground: #0B1D17;
+  --popover: #FDFBF7;
+  --popover-foreground: #0B1D17;
+  --primary: #6B0F0F; /* Dark Maroon */
+  --primary-foreground: #FFFFFF;
+  --secondary: #FAF6EE; /* Warm Beige */
+  --secondary-foreground: #0B1D17;
+  --muted: #FAF6EE;
+  --muted-foreground: #66756F;
+  --accent: #6B0F0F;
+  --accent-foreground: #FFFFFF;
+  --destructive: #6B0F0F;
+  --destructive-foreground: #FFFFFF;
+  --border: #E8E2D5; /* Soft beige borders */
+  --input: #E8E2D5;
+  --ring: #6B0F0F;
+  --radius: 1.5rem; /* Friendly, soft rounded corners */
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  overflow-x: hidden;
+  letter-spacing: -0.015em;
+}
+
+/* Custom CSS Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FDFBF7;
+}
+::-webkit-scrollbar-thumb {
+  background: #6B0F0F;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #540c0c;
+}
+
+/* Animated warning stripe pattern with Maroon & Cream */
+.warning-stripes-maroon-cream {
+  background: repeating-linear-gradient(
+    -45deg,
+    #6B0F0F,
+    #6B0F0F 10px,
+    #F0E3C0 10px,
+    #F0E3C0 20px
+  );
+  background-size: 200% 200%;
+  animation: stripe-move 10s linear infinite;
+}
+
+@keyframes stripe-move {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+/* Elegant looping animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes float-reverse {
+  0%, 100% {
+    transform: translateY(0px) rotate(1deg);
+  }
+  50% {
+    transform: translateY(8px) rotate(-1deg);
+  }
+}
+.animate-float-reverse {
+  animation: float-reverse 6s ease-in-out infinite;
+}
+
+/* Glassmorphism utility for light mode */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(107, 15, 15, 0.08);
+}
+
+.glass-maroon {
+  background: rgba(107, 15, 15, 0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(107, 15, 15, 0.12);
+}
+
+/* Display font Playfair Serif utility */
+.font-display {
+  font-family: var(--font-playfair), serif;
+  letter-spacing: -0.01em;
+}
+
+/* Marquee animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: inline-flex;
+  animation: marquee 25s linear infinite;
 }
