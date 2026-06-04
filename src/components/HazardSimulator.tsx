@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AlertOctagon, Send, ShieldAlert, CheckCircle2, RefreshCw } from "lucide-react";
 import { submitHazardReport } from "@/app/actions";
@@ -20,7 +20,12 @@ interface HazardSimulatorProps {
 }
 
 export default function HazardSimulator({ initialReports }: HazardSimulatorProps) {
+  const [mounted, setMounted] = useState(false);
   const [reports, setReports] = useState<HazardReport[]>(initialReports);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   const [reporter, setReporter] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
@@ -252,7 +257,7 @@ export default function HazardSimulator({ initialReports }: HazardSimulatorProps
                           {report.reporter}
                         </span>
                         <span className="text-[9px] text-[#66756F] font-mono">
-                          {new Date(report.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          {mounted ? new Date(report.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "--:--"}
                         </span>
                       </div>
                       <div className="flex items-center gap-1.5">
