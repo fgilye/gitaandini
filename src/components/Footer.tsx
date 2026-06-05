@@ -1,8 +1,11 @@
 "use client";
 
 import { ShieldCheck, Mail, Globe } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer className="bg-[#0B1D17] text-[#F0E3C0] border-t border-[#F0E3C0]/10 py-12 relative overflow-hidden">
       {/* Footer warning line strip */}
@@ -12,7 +15,7 @@ export default function Footer() {
         <div className="flex items-center gap-2">
           <ShieldCheck className="h-6 w-6 text-[#6B0F0F]" />
           <span className="text-xs font-bold text-[#F0E3C0] font-mono uppercase tracking-wider">
-            GITA ANDINI &copy; {new Date().getFullYear()} &bull; SAFETY CULTURE PROMOTER
+            GITA ANDINI &copy; {new Date().getFullYear()} &bull; {t("PROMOTOR BUDAYA KESELAMATAN", "SAFETY CULTURE PROMOTER")}
           </span>
         </div>
 
@@ -45,7 +48,7 @@ export default function Footer() {
         </div>
 
         <div className="text-right text-[9px] font-mono text-[#A4B2AC]/60">
-          TERVERIFIKASI &bull; ISO 45001 &bull; K3 UMUM KEMNAKER
+          {t("TERVERIFIKASI", "VERIFIED")} &bull; ISO 45001 &bull; {t("K3 UMUM KEMNAKER", "KEMNAKER GENERAL OHS")}
         </div>
       </div>
     </footer>

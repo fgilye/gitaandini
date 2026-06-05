@@ -2,14 +2,29 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { User, Award, ShieldAlert } from "lucide-react";
+import { User, Award, ShieldAlert, ShieldCheck } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
+import FloatingElements from "@/components/FloatingElements";
 
 export default function About() {
+  const { t } = useLanguage();
+
   return (
     <section
       id="about"
       className="py-24 bg-[#FAF6EE] text-[#0B1D17] relative overflow-hidden border-b border-[#E8E2D5]"
     >
+      {/* Slow floating orb */}
+      <motion.div
+        animate={{
+          x: [0, 80, -30, 0],
+          y: [0, 50, -50, 0],
+        }}
+        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/4 left-1/3 w-80 h-80 rounded-full bg-[#6B0F0F]/3 blur-[100px] pointer-events-none"
+      />
+      <FloatingElements count={5} color="#6B0F0F" />
+
       {/* Background grids */}
       <div className="absolute inset-0 bg-[radial-gradient(#6B0F0F03_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
 
@@ -30,7 +45,7 @@ export default function About() {
               viewport={{ once: true }}
               className="inline-flex items-center gap-1 bg-[#6B0F0F] text-white border border-[#6B0F0F]/20 px-4 py-1.5 rounded-full relative shadow-md"
             >
-              <span className="text-xs font-mono font-bold">Halo, Saya</span>
+              <span className="text-xs font-mono font-bold">{t("Halo, Saya", "Hello, I am")}</span>
               {/* Pointer cursor arrow */}
               <div className="absolute -bottom-2.5 right-4 w-3.5 h-3.5 bg-[#6B0F0F] transform rotate-45" />
             </motion.div>
@@ -46,7 +61,7 @@ export default function About() {
               </motion.h2>
               <div className="flex flex-col">
                 <span className="text-[10px] font-mono uppercase tracking-widest font-bold text-[#66756F] mb-1">
-                  ABOUT ME
+                  {t("TENTANG SAYA", "ABOUT ME")}
                 </span>
                 <div className="h-[2px] w-24 bg-[#6B0F0F]" />
               </div>
@@ -60,21 +75,27 @@ export default function About() {
               className="space-y-4 font-sans text-sm md:text-base leading-relaxed text-[#66756F] max-w-2xl"
             >
               <p>
-                Saya adalah lulusan Kesehatan Masyarakat dengan fokus pada K3, memiliki pengalaman dalam inspeksi keselamatan, identifikasi bahaya, serta dokumentasi K3 di lingkungan industri kelistrikan dan manufaktur.
+                {t(
+                  "Saya adalah lulusan Kesehatan Masyarakat dengan fokus pada K3, memiliki pengalaman dalam inspeksi keselamatan, identifikasi bahaya, serta dokumentasi K3 di lingkungan industri kelistrikan dan manufaktur.",
+                  "I am a Public Health graduate specializing in Occupational Health and Safety (OHS), with experience in safety inspections, hazard identification, and OHS documentation in the electrical power and manufacturing industries."
+                )}
               </p>
               <p>
-                Memahami dasar implementasi SMK3, work permit, dan pengendalian risiko kerja, serta berkomitmen untuk mendukung terciptanya lingkungan kerja yang aman dan sesuai standar.
+                {t(
+                  "Memahami dasar implementasi SMK3, work permit, dan pengendalian risiko kerja, serta berkomitmen untuk mendukung terciptanya lingkungan kerja yang aman dan sesuai standar.",
+                  "Understanding the basics of OHS management system (SMK3) implementation, work permits, and work risk control, and committed to supporting the creation of a safe and compliant working environment."
+                )}
               </p>
             </motion.div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
               <div className="flex items-start gap-2 text-xs font-mono text-[#0B1D17]">
                 <Award size={14} className="text-[#6B0F0F] mt-0.5 shrink-0" />
-                <span>Kepatuhan ISO 45001 & SMK3</span>
+                <span>{t("Kepatuhan ISO 45001 & SMK3", "ISO 45001 & SMK3 Compliance")}</span>
               </div>
               <div className="flex items-start gap-2 text-xs font-mono text-[#0B1D17]">
                 <Award size={14} className="text-[#6B0F0F] mt-0.5 shrink-0" />
-                <span>Pemantauan Kepatuhan APD</span>
+                <span>{t("Pemantauan Kepatuhan APD", "PPE Compliance Monitoring")}</span>
               </div>
             </div>
           </div>
@@ -97,9 +118,10 @@ export default function About() {
               {/* Photo Area */}
               <div className="relative aspect-[4/5] w-full bg-zinc-100 overflow-hidden border border-zinc-250">
                 <Image
-                  src="/gita_about.png"
+                  src="/gita_about_new.png"
                   alt="Gita Andini portrait"
                   fill
+                  priority
                   className="object-cover"
                   sizes="(max-w-700px) 100vw, 320px"
                 />
@@ -107,7 +129,7 @@ export default function About() {
 
               {/* Bottom text */}
               <div className="mt-4 text-center font-sans text-[10px] text-zinc-550 uppercase tracking-widest font-bold">
-                Jakarta &bull; Kampus FIKES 2026
+                {t("Jakarta • Kampus FIKES 2026", "Jakarta • FIKES Campus 2026")}
               </div>
             </div>
           </motion.div>

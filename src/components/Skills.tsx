@@ -1,34 +1,38 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useLanguage } from "@/context/LanguageContext";
+import FloatingElements from "@/components/FloatingElements";
 
 export default function Skills() {
+  const { t } = useLanguage();
+
   const categories = [
     {
-      title: "TECHNICAL OHS SKILLS",
+      title: t("KEAHLIAN K3 TEKNIS", "TECHNICAL OHS SKILLS"),
       skills: [
         "ISO 45001 & SMK3",
         "HIRA/JSA",
-        "Safety Inspection",
-        "Basic Risk Assessment",
-        "PPE Compliance Monitoring",
-        "Safety Documentation",
+        t("Inspeksi Keselamatan", "Safety Inspection"),
+        t("Penilaian Risiko Dasar", "Basic Risk Assessment"),
+        t("Pemantauan Kepatuhan APD", "PPE Compliance Monitoring"),
+        t("Dokumentasi Keselamatan", "Safety Documentation"),
       ],
     },
     {
-      title: "INDUSTRIAL & FIELD EXPOSURE",
+      title: t("PAPARAN INDUSTRI & LAPANGAN", "INDUSTRIAL & FIELD EXPOSURE"),
       skills: [
-        "Substation Safety (PT PLN)",
-        "Company Visit to Petrochemical Industry (Chandra Asri)",
-        "Company Visit to Manufacturing Process (Faber Castell)",
+        t("Keselamatan Gardu Induk (PT PLN)", "Substation Safety (PT PLN)"),
+        t("Kunjungan Industri ke Industri Petrokimia (Chandra Asri)", "Company Visit to Petrochemical Industry (Chandra Asri)"),
+        t("Inspeksi Area Kerja & Safety Walkthrough", "Work Area Inspections & Safety Walkthroughs"),
       ],
     },
     {
-      title: "COMMUNICATION & LEADERSHIP",
+      title: t("KOMUNIKASI & KEPEMIMPINAN", "COMMUNICATION & LEADERSHIP"),
       skills: [
-        "Safety Campaign Development",
-        "Health Education",
-        "Event Coordination",
+        t("Penyuluhan Kesehatan Kerja (JAHE 2024)", "Occupational Health Education (JAHE 2024)"),
+        t("Promosi Budaya K3 (Safety Campaign)", "OHS Culture Promotion (Safety Campaign)"),
+        t("Komunikasi Kolaboratif & Kepemimpinan", "Collaborative Communication & Leadership"),
       ],
     },
   ];
@@ -38,7 +42,7 @@ export default function Skills() {
       {/* Top Banner (Maroon) */}
       <div className="bg-[#6B0F0F] text-[#F0E3C0] py-16 text-center border-b border-[#F0E3C0]/15 relative">
         <div className="absolute top-4 left-6 text-2xl font-black text-[#F0E3C0]/5 select-none tracking-widest font-mono">
-          🛟 SAFETY FIRST
+          {t("🛟 UTAMAKAN KESELAMATAN", "🛟 SAFETY FIRST")}
         </div>
         <motion.h2
           initial={{ opacity: 0, y: 10 }}
@@ -46,13 +50,24 @@ export default function Skills() {
           viewport={{ once: true }}
           className="text-6xl md:text-8xl font-display font-extrabold uppercase tracking-tight text-[#F0E3C0] italic"
         >
-          Personal Skill
+          {t("Keahlian Diri", "Personal Skills")}
         </motion.h2>
       </div>
 
       {/* Bottom Content Area (Light Theme Alabaster) */}
-      <div className="bg-[#FDFBF7] text-[#0B1D17] py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="bg-[#FDFBF7] text-[#0B1D17] py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        {/* Slow floating background elements */}
+        <motion.div
+          animate={{
+            x: [0, 50, -50, 0],
+            y: [0, 40, -40, 0],
+          }}
+          transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-1/3 left-1/3 w-72 h-72 rounded-full bg-[#6B0F0F]/3 blur-[100px] pointer-events-none z-0"
+        />
+        <FloatingElements count={5} color="#6B0F0F" />
+
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
           {categories.map((cat, index) => (
             <motion.div
               key={cat.title}

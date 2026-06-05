@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
+import { LanguageProvider } from "@/context/LanguageContext";
+import TractorCursor from "@/components/TractorCursor";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -33,7 +35,12 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <LanguageProvider>
+          <TractorCursor />
+          {children}
+        </LanguageProvider>
+      </body>
     </html>
   );
 }

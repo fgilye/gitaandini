@@ -3,86 +3,113 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Users, Shield, Award, Heart, X, Calendar, CheckSquare } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
+import FloatingElements from "@/components/FloatingElements";
 
 export default function Organizations() {
   const [activeOrg, setActiveOrg] = useState<any | null>(null);
+  const { t } = useLanguage();
 
   const orgs = [
     {
       title: "Occupational Health, Safety, and Environment Forum (OHSEF) UPNVJ",
-      role: "Staff Research & Development (RnD)",
-      period: "Februari 2025 - Februari 2026",
-      desc: "Mengembangkan materi edukasi K3 dan konten berbasis riset untuk meningkatkan kesadaran keselamatan kerja. Terlibat aktif dalam program perencanaan kampanye safety kampus.",
-      details: "Sebagai bagian dari divisi Research and Development, bertanggung jawab untuk melakukan kajian literatur ilmiah K3, mengolah data hasil riset kesehatan lingkungan, serta menerjemahkan regulasi SMK3 menjadi materi edukasi infografis yang mudah dipahami oleh civitas akademika.",
+      role: t("Staf Research & Development (RnD)", "Staff Research & Development (RnD)"),
+      period: t("Februari 2025 - Februari 2026", "February 2025 - February 2026"),
+      desc: t(
+        "Mengembangkan materi edukasi K3 dan konten berbasis riset untuk meningkatkan kesadaran keselamatan kerja. Terlibat aktif dalam program perencanaan kampanye safety kampus.",
+        "Developing OHS educational materials and research-based content to increase safety awareness. Actively involved in campus safety campaign planning programs."
+      ),
+      details: t(
+        "Sebagai bagian dari divisi Research and Development, bertanggung jawab untuk melakukan kajian literatur ilmiah K3, mengolah data hasil riset kesehatan lingkungan, serta menerjemahkan regulasi SMK3 menjadi materi edukasi infografis yang mudah dipahami oleh civitas akademika.",
+        "As part of the Research and Development division, responsible for conducting OHS scientific literature reviews, processing environmental health research data, and translating SMK3 regulations into infographic educational materials easily understood by the academic community."
+      ),
       highlights: [
-        "Mengembangkan 10+ materi infografis edukasi keselamatan kerja kampus",
-        "Mengadakan survey kesadaran keselamatan kerja di lingkungan UPNVJ",
-        "Kolaborasi aktif antar organisasi dalam seminar K3 nasional"
+        t("Mengembangkan 10+ materi infografis edukasi keselamatan kerja kampus", "Developing 10+ campus safety education infographic materials"),
+        t("Mengadakan survey kesadaran keselamatan kerja di lingkungan UPNVJ", "Conducting a safety awareness survey within the UPNVJ environment"),
+        t("Kolaborasi aktif antar organisasi dalam seminar K3 nasional", "Actively collaborating across organizations in national OHS seminars")
       ],
       icon: Shield,
       gallery: [
         {
           img: "/extracted/page_10_img_2.jpeg",
-          title: "OHSEF RESEARCH & EDUCATION",
-          desc: "Pengembangan riset K3 dan desain materi edukasi visual keselamatan kerja."
+          title: t("RISET & EDUKASI OHSEF", "OHSEF RESEARCH & EDUCATION"),
+          desc: t("Pengembangan riset K3 dan desain materi edukasi visual keselamatan kerja.", "Development of OHS research and visual education design for occupational safety.")
         }
       ]
     },
     {
-      title: "KSM Batavia (Badan Aksi Tanggap Bencana FIKES UPNVJ)",
-      role: "Volunteer Anggota",
-      period: "Februari 2023 - Februari 2024",
-      desc: "Mengikuti serangkaian pelatihan tanggap darurat, mitigasi bencana, serta pelatihan pertolongan pertama (first aid) dan CPR.",
-      details: "Berperan aktif dalam program pelatihan fisik dan teoritis mitigasi bencana alam, penanganan cedera olahraga, resusitasi jantung paru (RJP/CPR), serta simulasi evakuasi darurat di lingkungan kampus.",
+      title: t("KSM Batavia (Badan Aksi Tanggap Bencana FIKES UPNVJ)", "KSM Batavia (UPNVJ Faculty of Health Sciences Disaster Response Unit)"),
+      role: t("Relawan Anggota", "Volunteer Member"),
+      period: t("Februari 2023 - Februari 2024", "February 2023 - February 2024"),
+      desc: t(
+        "Mengikuti serangkaian pelatihan tanggap darurat, mitigasi bencana, serta pelatihan pertolongan pertama (first aid) dan CPR.",
+        "Participating in emergency response training, disaster mitigation, as well as first aid and CPR training."
+      ),
+      details: t(
+        "Berperan aktif dalam program pelatihan fisik dan teoritis mitigasi bencana alam, penanganan cedera olahraga, resusitasi jantung paru (RJP/CPR), serta simulasi evakuasi darurat di lingkungan kampus.",
+        "Playing an active role in physical and theoretical training programs for natural disaster mitigation, sports injury management, cardiopulmonary resuscitation (CPR), and emergency evacuation simulations in campus environments."
+      ),
       highlights: [
-        "Sertifikasi pelatihan pertolongan pertama (First Aid)",
-        "Berpartisipasi dalam simulasi tanggap darurat tingkat fakultas",
-        "Edukasi mitigasi kebakaran skala rumah tangga untuk warga binaan"
+        t("Sertifikasi pelatihan pertolongan pertama (First Aid)", "First Aid training certification"),
+        t("Berpartisipasi dalam simulasi tanggap darurat tingkat fakultas", "Participating in faculty-level emergency response simulations"),
+        t("Edukasi mitigasi kebakaran skala rumah tangga untuk warga binaan", "Household-scale fire mitigation education for coached residents")
       ],
       icon: Heart,
       gallery: [
         {
           img: "/extracted/page_10_img_3.jpeg",
-          title: "FIRST AID & CPR TRAINING",
-          desc: "Latihan simulasi resusitasi jantung paru (CPR) dan penanganan korban darurat."
+          title: t("PELATIHAN P3K & RJP", "FIRST AID & CPR TRAINING"),
+          desc: t("Latihan simulasi resusitasi jantung paru (CPR) dan penanganan korban darurat.", "CPR simulation and emergency casualty management training.")
         },
         {
           img: "/extracted/page_10_img_4.jpeg",
-          title: "DISASTER MITIGATION SKILLS",
-          desc: "Mengikuti simulasi pemadaman api awal menggunakan APAR dan karung basah."
+          title: t("KEAHLIAN MITIGASI BENCANA", "DISASTER MITIGATION SKILLS"),
+          desc: t("Mengikuti simulasi pemadaman api awal menggunakan APAR dan karung basah.", "Participating in initial fire suppression simulations using fire extinguishers (APAR) and wet sacks.")
         }
       ]
     },
     {
-      title: "Ayo Sehat Fest Kemenkes RI",
-      role: "Volunteer Panitia",
-      period: "November 2023",
-      desc: "Bertanggung jawab atas kelancaran operasional festival kesehatan nasional Kemenkes di Gelora Bung Karno. Berkoordinasi dengan tim keamanan, logistik, dan medis.",
-      details: "Mendukung penyelenggaraan acara festival kesehatan berskala nasional yang diinisiasi oleh Kementerian Kesehatan RI. Bertugas memastikan protokol keselamatan pengunjung terpenuhi dan mengelola arus alur fasilitas medis darurat.",
+      title: t("Ayo Sehat Fest Kemenkes RI", "Ayo Sehat Fest Kemenkes RI"),
+      role: t("Relawan Panitia", "Volunteer Committee"),
+      period: t("November 2023", "November 2023"),
+      desc: t(
+        "Bertanggung jawab atas kelancaran operasional festival kesehatan nasional Kemenkes di Gelora Bung Karno. Berkoordinasi dengan tim keamanan, logistik, dan medis.",
+        "Responsible for the operational smoothness of the Kemenkes national health festival at Gelora Bung Karno. Coordinating with security, logistics, and medical teams."
+      ),
+      details: t(
+        "Mendukung penyelenggaraan acara festival kesehatan berskala nasional yang diinisiasi oleh Kementerian Kesehatan RI. Bertugas memastikan protokol keselamatan pengunjung terpenuhi dan mengelola arus alur fasilitas medis darurat.",
+        "Supporting the implementation of a national-scale health festival initiated by the Ministry of Health RI. Tasked with ensuring visitor safety protocols are met and managing the flow of emergency medical facilities."
+      ),
       highlights: [
-        "Membantu koordinasi posko P3K dan kesiapan ambulans di area GBK",
-        "Mengarahkan alur evakuasi darurat untuk area berkapasitas 5000+ pengunjung",
-        "Menerima penghargaan apresiasi volunteer langsung dari panitia Kemenkes"
+        t("Membantu koordinasi posko P3K dan kesiapan ambulans di area GBK", "Assisting in the coordination of the first aid post and ambulance readiness at the GBK area"),
+        t("Mengarahkan alur evakuasi darurat untuk area berkapasitas 5000+ pengunjung", "Directing the emergency evacuation route for an area with a capacity of 5,000+ visitors"),
+        t("Menerima penghargaan apresiasi volunteer langsung dari panitia Kemenkes", "Receiving volunteer appreciation awards directly from the Kemenkes committee")
       ],
       icon: Users,
       gallery: [
         {
           img: "/extracted/page_19_img_2.jpeg",
-          title: "KEMENKES AYO SEHAT FEST",
-          desc: "Kolaborasi kepanitiaan bersama Kemenkes RI untuk kelancaran posko kesehatan GBK."
+          title: t("AYO SEHAT FEST KEMENKES", "KEMENKES AYO SEHAT FEST"),
+          desc: t("Kolaborasi kepanitiaan bersama Kemenkes RI untuk kelancaran posko kesehatan GBK.", "Committee collaboration with Ministry of Health RI for first aid post operational smoothness at GBK.")
         }
       ]
     },
     {
-      title: "UKM UFO Veteran Jakarta (Fotografi, Videografi, & Desain)",
-      role: "Staff Kreatif",
-      period: "September 2022 - Agustus 2023",
-      desc: "Mempelajari software SketchUp dan Adobe Photoshop untuk kebutuhan layout dan desain grafis. Memamerkan 2 karya desain di pameran nasional UFOFEST 2023 di Perpustakaan Nasional RI.",
-      details: "Mengasah keahlian multimedia untuk mendukung kampanye visual dan dokumentasi K3. Mengembangkan tata letak grafis dan konsep pameran untuk meningkatkan keterlibatan publik dalam seni visual.",
+      title: t("UKM UFO Veteran Jakarta (Fotografi, Videografi, & Desain)", "UKM UFO Veteran Jakarta (Photography, Videography, & Design)"),
+      role: t("Staf Kreatif", "Creative Staff"),
+      period: t("September 2022 - Agustus 2023", "September 2022 - August 2023"),
+      desc: t(
+        "Mempelajari software SketchUp dan Adobe Photoshop untuk kebutuhan layout dan desain grafis. Memamerkan 2 karya desain di pameran nasional UFOFEST 2023 di Perpustakaan Nasional RI.",
+        "Studying SketchUp and Adobe Photoshop software for layout and graphic design needs. Exhibiting 2 design works at the UFOFEST 2023 national exhibition in National Library of Indonesia."
+      ),
+      details: t(
+        "Mengasih keahlian multimedia untuk mendukung kampanye visual dan dokumentasi K3. Mengembangkan tata letak grafis dan konsep pameran untuk meningkatkan keterlibatan publik dalam seni visual.",
+        "Honing multimedia skills to support visual campaigns and OHS documentation. Developing graphic layouts and exhibition concepts to increase public engagement in visual arts."
+      ),
       highlights: [
-        "Memamerkan 2 karya visual di Galeri Perpustakaan Nasional RI",
-        "Menguasai Adobe Photoshop dan SketchUp untuk pemodelan layout 3D",
-        "Berkontribusi sebagai tim dokumentasi resmi di berbagai kegiatan kemahasiswaan"
+        t("Memamerkan 2 karya visual di Galeri Perpustakaan Nasional RI", "Exhibiting 2 visual works at the National Library of Indonesia Gallery"),
+        t("Menguasai Adobe Photoshop dan SketchUp untuk pemodelan layout 3D", "Mastering Adobe Photoshop and SketchUp for 3D layout modeling"),
+        t("Berkontribusi sebagai tim dokumentasi resmi di berbagai kegiatan kemahasiswaan", "Contributing as official documentation team in various student activities")
       ],
       icon: Award,
       gallery: []
@@ -91,13 +118,29 @@ export default function Organizations() {
 
   return (
     <section id="organizations" className="py-20 bg-[#FDFBF7] text-[#0B1D17] relative overflow-hidden font-sans border-b border-[#E8E2D5]">
+      {/* Slow floating background elements */}
+      <motion.div
+        animate={{
+          x: [0, 60, -60, 0],
+          y: [0, -50, 50, 0],
+        }}
+        transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/4 left-1/4 w-80 h-80 rounded-full bg-[#6B0F0F]/3 blur-[100px] pointer-events-none z-0"
+      />
+      <FloatingElements count={6} color="#6B0F0F" />
+
+      <div className="absolute inset-0 bg-[radial-gradient(#6B0F0F02_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 font-sans">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-extrabold tracking-tight text-[#0B1D17] sm:text-5xl uppercase font-display italic">
-            Organisasi & <span className="text-[#6B0F0F] glow-maroon">Kevoluntiran</span>
+            {t("Organisasi & ", "Organizations & ")}<span className="text-[#6B0F0F] glow-maroon">{t("Kevoluntiran", "Volunteering")}</span>
           </h2>
           <p className="mt-4 text-[#66756F] text-sm font-sans">
-            Pengalaman Gita Andini di luar kelas dalam memimpin kegiatan kampanye sosial dan kepedulian K3.
+            {t(
+              "Pengalaman Gita Andini di luar kelas dalam memimpin kegiatan kampanye sosial dan kepedulian K3.",
+              "Gita Andini's extracurricular experiences in leading social campaigns and safety awareness."
+            )}
           </p>
         </div>
 
@@ -132,7 +175,7 @@ export default function Organizations() {
                   <p className="text-xs text-[#66756F] leading-relaxed font-sans line-clamp-2">{org.desc}</p>
                   
                   <span className="block text-[9.5px] font-mono text-[#6B0F0F] font-bold mt-2 group-hover:underline">
-                    Lihat kontribusi &rarr;
+                    {t("Lihat kontribusi →", "View contribution →")}
                   </span>
                 </div>
               </motion.div>
@@ -171,13 +214,13 @@ export default function Organizations() {
               <div className="p-8 md:p-12">
                 <div className="border-b border-[#FAF6EE]/15 pb-6">
                   <span className="text-[10px] font-mono text-[#FAF6EE]/75 uppercase tracking-widest font-bold">
-                    ORGANIZATION & VOLUNTEER
+                    {t("ORGANISASI & RELAWAN", "ORGANIZATION & VOLUNTEER")}
                   </span>
                   <h3 className="text-3xl md:text-5xl font-display font-extrabold text-white mt-1 italic uppercase tracking-tight leading-none">
                     {activeOrg.title}
                   </h3>
                   <p className="text-sm font-sans text-[#FAF6EE]/80 mt-2 font-semibold uppercase tracking-wider">
-                    Peran: {activeOrg.role} &bull; {activeOrg.period}
+                    {t("Peran: ", "Role: ")}{activeOrg.role} &bull; {activeOrg.period}
                   </p>
                 </div>
 
@@ -192,7 +235,7 @@ export default function Organizations() {
                   <div className="mt-10">
                     <h4 className="text-xs font-mono uppercase tracking-widest font-bold text-white mb-6 flex items-center gap-2">
                       <span className="h-1.5 w-1.5 bg-emerald-400 rounded-full animate-ping" />
-                      Dokumentasi Foto Kegiatan
+                      {t("Dokumentasi Foto Kegiatan", "Activity Photo Documentation")}
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       {activeOrg.gallery.map((item: any, idx: number) => (
@@ -223,7 +266,7 @@ export default function Organizations() {
                     onClick={() => setActiveOrg(null)}
                     className="px-6 py-3 bg-[#FAF6EE] hover:bg-white text-[#6B0F0F] text-xs font-bold font-mono tracking-wider uppercase rounded-2xl cursor-pointer transition-colors shadow-lg"
                   >
-                    Tutup Dokumentasi
+                    {t("Tutup Dokumentasi", "Close Documentation")}
                   </button>
                 </div>
               </div>

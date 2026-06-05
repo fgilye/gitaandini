@@ -2,156 +2,171 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLanguage } from "@/context/LanguageContext";
 import { User, Calendar, Info, X } from "lucide-react";
+import FloatingElements from "@/components/FloatingElements";
 
 export default function Projects() {
   const [activeProj, setActiveProj] = useState<any | null>(null);
+  const { t } = useLanguage();
 
   const projects = [
     {
       id: 1,
-      title: "HSSE Digital Dashboard Development",
-      category: "Digitalization",
-      period: "Oktober - Desember 2025",
-      role: "Developer & Creator",
-      description:
+      title: t("Pengembangan Digital Dashboard HSSE", "HSSE Digital Dashboard Development"),
+      category: t("Digitalisasi", "Digitalization"),
+      period: t("Oktober - Desember 2025", "October - December 2025"),
+      role: t("Pengembang & Pencipta", "Developer & Creator"),
+      description: t(
         "Mengembangkan sistem arsip digital K3 berbasis web untuk mengintegrasikan data HSSE yang sebelumnya tersebar di berbagai media menjadi satu platform terpusat. Sistem ini dirancang untuk meningkatkan efisiensi pengelolaan dokumen, mempermudah akses data, serta mendukung proses pelaporan dan audit K3.",
-      highlights: ["Integrasi Data Terpusat", "Efisiensi Audit Readiness", "Digital Archive"],
+        "Developed a web-based OHS digital archive system to integrate HSSE data previously scattered across various media into a single centralized platform. This system is designed to improve document management efficiency, simplify data access, and support OHS reporting and audit processes."
+      ),
+      highlights: [t("Integrasi Data Terpusat", "Centralized Data Integration"), t("Efisiensi Audit Readiness", "Audit Readiness Efficiency"), t("Arsip Digital", "Digital Archive")],
       gallery: [
         {
           img: "/extracted/page_11_img_2.jpeg",
-          title: "DASHBOARD METRICS",
-          desc: "Sistem monitoring metrik insiden K3 secara digital."
+          title: t("METRIK DASHBOARD", "DASHBOARD METRICS"),
+          desc: t("Sistem monitoring metrik insiden K3 secara digital.", "Digital monitoring system for OHS incident metrics.")
         },
         {
           img: "/extracted/page_11_img_3.jpeg",
-          title: "DIGITAL REPORTING",
-          desc: "Formulir pelaporan bahaya real-time terintegrasi."
+          title: t("PELAPORAN DIGITAL", "DIGITAL REPORTING"),
+          desc: t("Formulir pelaporan bahaya real-time terintegrasi.", "Integrated real-time hazard reporting form.")
         },
         {
           img: "/extracted/page_11_img_4.jpeg",
-          title: "DOCUMENT ARCHIVE",
-          desc: "Pusat arsip digital perizinan kerja & file kepatuhan SHE."
+          title: t("ARSIP DOKUMEN", "DOCUMENT ARCHIVE"),
+          desc: t("Pusat arsip digital perizinan kerja & file kepatuhan SHE.", "Digital archive center for work permits & SHE compliance files.")
         }
       ]
     },
     {
       id: 2,
-      title: "Edukasi Kebisingan Workshop 603 Room",
-      category: "Community Service",
-      period: "18 Mei 2025",
-      role: "Wakil Ketua Pelaksana",
-      description:
+      title: t("Edukasi Kebisingan Workshop Room 603", "Noise Education in Workshop Room 603"),
+      category: t("Pengabdian Masyarakat", "Community Service"),
+      period: t("18 Mei 2025", "18 May 2025"),
+      role: t("Wakil Ketua Pelaksana", "Vice Chairman"),
+      description: t(
         "Program pengabdian masyarakat yang berfokus pada edukasi risiko kebisingan pada pekerja las. Kegiatan ini bertujuan meningkatkan kesadaran dan pemahaman pekerja terhadap bahaya kebisingan serta penerapan prinsip K3 (seperti penggunaan Earplug/Earmuff) di lingkungan kerja las berisiko tinggi.",
-      highlights: ["Safety Training", "Pencegahan PAK", "Higiene Industri"],
+        "A community service program focused on educating welding workers about noise risks. This activity aims to raise workers' awareness and understanding of noise hazards and the implementation of OHS principles (such as using earplugs/earmuffs) in high-risk welding environments."
+      ),
+      highlights: [t("Pelatihan Keselamatan", "Safety Training"), t("Pencegahan PAK", "Occupational Disease Prevention"), t("Higiene Industri", "Industrial Hygiene")],
       gallery: [
         {
           img: "/extracted/page_13_img_2.jpeg",
-          title: "EDUKASI RISIKO KEBISiNGAN",
-          desc: "Sosialisasi potensi penurunan pendengaran akibat kebisingan industri las."
+          title: t("EDUKASI RISIKO KEBISiNGAN", "NOISE RISK EDUCATION"),
+          desc: t("Sosialisasi potensi penurunan pendengaran akibat kebisingan industri las.", "Socialization of potential hearing loss due to welding industry noise.")
         },
         {
           img: "/extracted/page_13_img_3.jpeg",
-          title: "SAFETY APD DISTRIBUTION",
-          desc: "Pembagian alat pelindung telinga dan edukasi cara pemakaian yang benar."
+          title: t("PEMBAGIAN APD KESELAMATAN", "SAFETY PPE DISTRIBUTION"),
+          desc: t("Pembagian alat pelindung telinga dan edukasi cara pemakaian yang benar.", "Distribution of hearing protection and education on correct usage.")
         }
       ]
     },
     {
       id: 3,
-      title: "Company Visit PT Chandra Asri Pacific Tbk",
-      category: "Industrial Exposure",
-      period: "11 Juni 2025",
-      role: "HSE Observer",
-      description:
+      title: t("Kunjungan Industri PT Chandra Asri Pacific Tbk", "Company Visit PT Chandra Asri Pacific Tbk"),
+      category: t("Paparan Industri", "Industrial Exposure"),
+      period: t("11 Juni 2025", "11 June 2025"),
+      role: t("Observer K3", "HSE Observer"),
+      description: t(
         "Mengamati secara langsung bagaimana sebuah perusahaan petrokimia berskala nasional menjalankan proses produksi sekaligus menegakkan budaya Keselamatan dan Kesehatan Kerja (K3) yang kokoh. Fokus pengamatan meliputi emergency response, Fire safety, dan proses safety management di area refinery.",
+        "Directly observing how a national-scale petrochemical company runs its production process while enforcing a solid Occupational Health and Safety (OHS) culture. The observation focus included emergency response, fire safety, and process safety management in the refinery area."
+      ),
       highlights: ["Petrochemical Safety", "Hazard Identification", "Emergency Response"],
       gallery: [
         {
           img: "/extracted/page_14_img_2.jpeg",
-          title: "PROCESS SAFETY MANAGEMENT",
-          desc: "Observasi panel kontrol keselamatan dan regulasi tanggap darurat kilang."
+          title: t("MANAJEMEN KESELAMATAN PROSES", "PROCESS SAFETY MANAGEMENT"),
+          desc: t("Observasi panel kontrol keselamatan dan regulasi tanggap darurat kilang.", "Observation of safety control panels and refinery emergency response regulations.")
         },
         {
           img: "/extracted/page_14_img_3.jpeg",
-          title: "FIRE SAFETY & REFINERY TOUR",
-          desc: "Kunjungan lapangan dan inspeksi sistem proteksi kebakaran terpadu."
+          title: t("KESELAMATAN KEBAKARAN & TUR KILANG", "FIRE SAFETY & REFINERY TOUR"),
+          desc: t("Kunjungan lapangan dan inspeksi sistem proteksi kebakaran terpadu.", "Field visit and inspection of the integrated fire protection system.")
         }
       ]
     },
     {
       id: 4,
-      title: "Company Visit Faber-Castell International Indonesia",
-      category: "Industrial Exposure",
-      period: "1 Oktober 2024",
-      role: "HSE Observer",
-      description:
+      title: t("Kunjungan Industri Faber-Castell International Indonesia", "Company Visit Faber-Castell International Indonesia"),
+      category: t("Paparan Industri", "Industrial Exposure"),
+      period: t("1 Oktober 2024", "1 October 2024"),
+      role: t("Observer K3", "HSE Observer"),
+      description: t(
         "Melakukan observasi proses produksi di industri manufaktur serta mengidentifikasi potensi bahaya di lingkungan kerja. Memperoleh pemahaman mengenai penerapan keselamatan kerja, khususnya terkait risiko permesinan, penanganan bahan kimia pewarna, dan ergonomi lini perakitan.",
+        "Observing production processes in the manufacturing industry and identifying potential hazards in the work environment. Gaining an understanding of work safety implementation, specifically regarding machine risks, dye chemical handling, and assembly line ergonomics."
+      ),
       highlights: ["Manufacturing Risk", "Machine Guarding", "Ergonomics Analysis"],
       gallery: [
         {
           img: "/extracted/page_15_img_2.jpeg",
-          title: "MACHINE GUARDING INSPECTION",
-          desc: "Analisis pelindung mesin produksi untuk mencegah kecelakaan kerja."
+          title: t("INSPEKSI PELINDUNG MESIN", "MACHINE GUARDING INSPECTION"),
+          desc: t("Analisis pelindung mesin produksi untuk mencegah kecelakaan kerja.", "Analysis of production machine guarding to prevent work accidents.")
         },
         {
           img: "/extracted/page_15_img_3.jpeg",
-          title: "CHEMICAL HAZARD SAFETY",
-          desc: "Pengamatan penanganan bahan kimia pewarna dan APD yang sesuai."
+          title: t("KESELAMATAN BAHAYA KIMIA", "CHEMICAL HAZARD SAFETY"),
+          desc: t("Pengamatan penanganan bahan kimia pewarna dan APD yang sesuai.", "Observation of dye chemical handling and appropriate PPE.")
         }
       ]
     },
     {
       id: 5,
-      title: "Seminar Nasional K3 UPNVJ",
-      category: "Professional Events",
-      period: "5 Juli 2025",
-      role: "Panitia - Divisi Acara & Liaison Officer",
-      description:
+      title: t("Seminar Nasional K3 UPNVJ", "UPNVJ National OHS Seminar"),
+      category: t("Acara Profesional", "Professional Events"),
+      period: t("5 Juli 2025", "5 July 2025"),
+      role: t("Panitia - Divisi Acara & Liaison Officer", "Committee - Event Division & Liaison Officer"),
+      description: t(
         "Berkontribusi dalam penyelenggaraan seminar nasional K3 dengan partisipasi ±700 peserta dari seluruh Indonesia bertema 'Gen Z vs Everybody di Dunia K3', yang melibatkan akademisi, praktisi keselamatan kerja, dan perwakilan kementerian.",
-      highlights: ["700+ Peserta", "Liaison Officer", "Event Management"],
+        "Contributing to the organization of a national OHS seminar with ±700 participants from all over Indonesia themed 'Gen Z vs Everybody in the OHS World', involving academics, safety practitioners, and ministry representatives."
+      ),
+      highlights: [t("700+ Peserta", "700+ Participants"), "Liaison Officer", "Event Management"],
       gallery: [
         {
           img: "/extracted/page_16_img_2.jpeg",
-          title: "SEMINAR STAGE MANAGEMENT",
-          desc: "Koordinasi teknis acara dan kesiapan panggung utama seminar."
+          title: t("MANAJEMEN PANGGUNG SEMINAR", "SEMINAR STAGE MANAGEMENT"),
+          desc: t("Koordinasi teknis acara dan kesiapan panggung utama seminar.", "Technical coordination of the event and main stage readiness for the seminar.")
         },
         {
           img: "/extracted/page_16_img_3.jpeg",
-          title: "LIAISON OFFICER COORDINATION",
-          desc: "Penyambutan dan pendampingan pembicara kementerian dan praktisi K3."
+          title: t("KOORDINASI LIAISON OFFICER", "LIAISON OFFICER COORDINATION"),
+          desc: t("Penyambutan dan pendampingan pembicara kementerian dan praktisi K3.", "Welcoming and assisting ministry speakers and OHS practitioners.")
         },
         {
           img: "/extracted/page_16_img_4.jpeg",
-          title: "PARTICIPANTS ENGAGEMENT",
-          desc: "Mengelola registrasi dan kelancaran interaksi peserta nasional."
+          title: t("KETERLIBATAN PESERTA", "PARTICIPANTS ENGAGEMENT"),
+          desc: t("Mengelola registrasi dan kelancaran interaksi peserta nasional.", "Managing registration and the smooth interaction of national participants.")
         }
       ]
     },
     {
       id: 6,
-      title: "Sharing Session K3 OHSEF 2025: LOTO",
-      category: "Professional Events",
-      period: "17 Mei 2025",
-      role: "Koordinator Divisi Acara",
-      description:
+      title: t("Sharing Session K3 OHSEF 2025: LOTO", "OHSEF 2025 OHS Sharing Session: LOTO"),
+      category: t("Acara Profesional", "Professional Events"),
+      period: t("17 Mei 2025", "17 May 2025"),
+      role: t("Koordinator Divisi Acara", "Event Division Coordinator"),
+      description: t(
         "Memimpin perencanaan dan pelaksanaan kegiatan Sharing Session OHSEF 2025 dengan tema 'Lockout Tagout (LOTO): Protecting Workers from Hazardous Energy', sebagai upaya meningkatkan pemahaman keselamatan isolasi energi berbahaya di kalangan akademisi.",
+        "Leading the planning and execution of the OHSEF 2025 Sharing Session with the theme 'Lockout Tagout (LOTO): Protecting Workers from Hazardous Energy', as an effort to increase understanding of hazardous energy isolation safety among academics."
+      ),
       highlights: ["Lockout/Tagout (LOTO)", "Safety Campaign", "Leadership"],
       gallery: [
         {
           img: "/extracted/page_17_img_2.jpeg",
-          title: "LOTO CAMPAIGN CREATIVE",
-          desc: "Penyusunan materi edukasi visual lockout-tagout energi berbahaya."
+          title: t("KREATIF KAMPANYE LOTO", "LOTO CAMPAIGN CREATIVE"),
+          desc: t("Penyusunan materi edukasi visual lockout-tagout energi berbahaya.", "Preparation of visual educational materials for lockout-tagout of hazardous energy.")
         },
         {
           img: "/extracted/page_17_img_3.jpeg",
-          title: "SHARING SESSION DIRECTION",
-          desc: "Pengarahan pembicara dan manajemen waktu presentasi materi LOTO."
+          title: t("ARAHAN SHARING SESSION", "SHARING SESSION DIRECTION"),
+          desc: t("Pengarahan pembicara dan manajemen waktu presentasi materi LOTO.", "Speakers briefing and presentation time management for LOTO materials.")
         },
         {
           img: "/extracted/page_17_img_4.jpeg",
-          title: "AUDIENCE DISCUSSIONS",
-          desc: "Fasilitasi sesi tanya jawab mengenai praktek isolasi energi di lapangan."
+          title: t("DISKUSI AUDIENS", "AUDIENCE DISCUSSIONS"),
+          desc: t("Fasilitasi sesi tanya jawab mengenai praktek isolasi energi di lapangan.", "Facilitating Q&A sessions on energy isolation practices in the field.")
         }
       ]
     },
@@ -159,13 +174,17 @@ export default function Projects() {
 
   return (
     <section id="projects" className="py-20 bg-[#FDFBF7] text-[#0B1D17] relative overflow-hidden font-sans border-b border-[#E8E2D5]">
+      <FloatingElements count={5} color="#6B0F0F" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-extrabold tracking-tight text-[#0B1D17] sm:text-5xl uppercase font-display italic">
-            Portofolio <span className="text-[#6B0F0F] glow-maroon">Proyek & K3</span>
+            {t("Portofolio", "Portfolio")} <span className="text-[#6B0F0F] glow-maroon">{t("Proyek & K3", "Projects & OHS")}</span>
           </h2>
           <p className="mt-4 text-[#66756F] text-sm font-sans">
-            Portofolio proyek K3, kepemimpinan acara keselamatan, dan kunjungan lapangan industri.
+            {t(
+              "Portofolio proyek K3, kepemimpinan acara keselamatan, dan kunjungan lapangan industri.",
+              "Portfolio of OHS projects, safety event leadership, and industrial field visits."
+            )}
           </p>
         </div>
 
@@ -192,14 +211,14 @@ export default function Projects() {
                   {proj.title}
                 </h3>
                 <p className="text-xs text-[#66756F] mt-2.5 font-mono">
-                  Peran: <span className="text-[#0B1D17] font-sans font-semibold">{proj.role}</span>
+                  {t("Peran: ", "Role: ")}<span className="text-[#0B1D17] font-sans font-semibold">{proj.role}</span>
                 </p>
               </div>
 
               <div className="mt-6 pt-4 border-t border-[#E8E2D5] flex items-center justify-between text-xs text-[#66756F] font-mono">
                 <span>{proj.period}</span>
                 <span className="flex items-center gap-1 text-[#6B0F0F] font-semibold group-hover:underline">
-                  Detail <Info size={12} />
+                  {t("Detail", "Details")} <Info size={12} />
                 </span>
               </div>
             </motion.div>
@@ -243,7 +262,7 @@ export default function Projects() {
                     {activeProj.title}
                   </h3>
                   <p className="text-sm font-sans text-[#FAF6EE]/80 mt-2 font-semibold uppercase tracking-wider">
-                    Peran: {activeProj.role} &bull; {activeProj.period}
+                    {t("Peran: ", "Role: ")}{activeProj.role} &bull; {activeProj.period}
                   </p>
                 </div>
 
@@ -258,7 +277,7 @@ export default function Projects() {
                   <div className="mt-10">
                     <h4 className="text-xs font-mono uppercase tracking-widest font-bold text-white mb-6 flex items-center gap-2">
                       <span className="h-1.5 w-1.5 bg-emerald-400 rounded-full animate-ping" />
-                      Dokumentasi Kegiatan & Observasi
+                      {t("Dokumentasi Kegiatan & Observasi", "Activity Documentation & Observations")}
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       {activeProj.gallery.map((item: any, idx: number) => (
@@ -289,7 +308,7 @@ export default function Projects() {
                     onClick={() => setActiveProj(null)}
                     className="px-6 py-3 bg-[#FAF6EE] hover:bg-white text-[#6B0F0F] text-xs font-bold font-mono tracking-wider uppercase rounded-2xl cursor-pointer transition-colors shadow-lg"
                   >
-                    Tutup Dokumentasi
+                    {t("Tutup Dokumentasi", "Close Documentation")}
                   </button>
                 </div>
               </div>

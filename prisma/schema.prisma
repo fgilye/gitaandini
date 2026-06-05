@@ -41,3 +41,67 @@ model Certificate {
   category     String
   imageName    String
 }
+
+model Config {
+  key   String @id
+  value String
+}
+
+model EducationItem {
+  id          Int     @id @default(autoincrement())
+  school      String
+  degree      String
+  major       String
+  period      String
+  gpa         String
+  description String
+  highlights  String // JSON string
+}
+
+model ExperienceItem {
+  id          Int     @id @default(autoincrement())
+  role        String
+  company     String
+  period      String
+  description String
+  highlights  String // JSON string
+  gallery     String // JSON string
+}
+
+model SkillItem {
+  id       Int    @id @default(autoincrement())
+  category String
+  items    String // JSON string
+}
+
+model ProjectItem {
+  id          Int    @id @default(autoincrement())
+  title       String
+  category    String
+  period      String
+  role        String
+  description String
+  highlights  String // JSON string
+  gallery     String // JSON string
+}
+
+model OrganizationItem {
+  id          Int     @id @default(autoincrement())
+  title       String
+  role        String
+  period      String
+  desc        String
+  details     String
+  highlights  String // JSON string
+  gallery     String // JSON string
+}
+
+model PublicationItem {
+  id          Int    @id @default(autoincrement())
+  title       String
+  journal     String
+  year        String
+  type        String
+  details     String
+  highlights  String // JSON string
+}

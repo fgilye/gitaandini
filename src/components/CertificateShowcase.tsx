@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Award, Calendar, Hash, ExternalLink, X, FileCheck } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface Certificate {
   id: number;
@@ -20,6 +21,7 @@ interface CertificateShowcaseProps {
 }
 
 export default function CertificateShowcase({ certificates }: CertificateShowcaseProps) {
+  const { t } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [activeCert, setActiveCert] = useState<Certificate | null>(null);
 
@@ -38,10 +40,13 @@ export default function CertificateShowcase({ certificates }: CertificateShowcas
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
-            Lisensi & <span className="text-red-500">Sertifikasi K3</span>
+            {t("Lisensi & ", "Licensing & ")}<span className="text-red-500">{t("Sertifikasi K3", "OHS Certifications")}</span>
           </h2>
           <p className="mt-4 max-w-2xl mx-auto text-zinc-400">
-            Kredensial profesional Gita Andini yang diakui secara nasional maupun internasional di bidang keselamatan dan kesehatan kerja.
+            {t(
+              "Kredensial profesional Gita Andini yang diakui secara nasional maupun internasional di bidang keselamatan dan kesehatan kerja.",
+              "Professional credentials of Gita Andini recognized nationally and internationally in the field of occupational health and safety."
+            )}
           </p>
         </div>
 
@@ -57,7 +62,7 @@ export default function CertificateShowcase({ certificates }: CertificateShowcas
                   : "bg-zinc-900 text-zinc-400 border-zinc-800 hover:text-white hover:border-zinc-700"
               }`}
             >
-              {cat}
+              {cat === "All" ? t("Semua", "All") : cat}
             </button>
           ))}
         </div>
@@ -98,7 +103,7 @@ export default function CertificateShowcase({ certificates }: CertificateShowcas
                 <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs text-zinc-500 font-mono">
                   <span>{cert.issueDate}</span>
                   <span className="flex items-center gap-1 text-red-500 font-semibold group-hover:underline">
-                    Lihat <ExternalLink size={12} />
+                    {t("Lihat", "View")} <ExternalLink size={12} />
                   </span>
                 </div>
               </motion.div>
@@ -156,7 +161,7 @@ export default function CertificateShowcase({ certificates }: CertificateShowcas
                   <div className="flex items-start gap-3 p-3 bg-zinc-900/50 rounded-lg border border-white/5 text-xs font-mono">
                     <FileCheck size={16} className="text-zinc-500 shrink-0 mt-0.5" />
                     <div>
-                      <div className="text-zinc-500 uppercase tracking-wider text-[10px]">Penerbit Sertifikat</div>
+                      <div className="text-zinc-500 uppercase tracking-wider text-[10px]">{t("Penerbit Sertifikat", "Certificate Issuer")}</div>
                       <div className="text-white mt-0.5">{activeCert.issuer}</div>
                     </div>
                   </div>
@@ -164,7 +169,7 @@ export default function CertificateShowcase({ certificates }: CertificateShowcas
                   <div className="flex items-start gap-3 p-3 bg-zinc-900/50 rounded-lg border border-white/5 text-xs font-mono">
                     <Calendar size={16} className="text-zinc-500 shrink-0 mt-0.5" />
                     <div>
-                      <div className="text-zinc-500 uppercase tracking-wider text-[10px]">Masa Berlaku</div>
+                      <div className="text-zinc-500 uppercase tracking-wider text-[10px]">{t("Masa Berlaku", "Validity Period")}</div>
                       <div className="text-white mt-0.5">{activeCert.issueDate} - {activeCert.expiryDate}</div>
                     </div>
                   </div>
@@ -172,7 +177,7 @@ export default function CertificateShowcase({ certificates }: CertificateShowcas
                   <div className="flex items-start gap-3 p-3 bg-zinc-900/50 rounded-lg border border-white/5 text-xs font-mono">
                     <Hash size={16} className="text-zinc-500 shrink-0 mt-0.5" />
                     <div>
-                      <div className="text-zinc-500 uppercase tracking-wider text-[10px]">Nomor Kredensial</div>
+                      <div className="text-zinc-500 uppercase tracking-wider text-[10px]">{t("Nomor Kredensial", "Credential Number")}</div>
                       <div className="text-white mt-0.5">{activeCert.credentialId}</div>
                     </div>
                   </div>
@@ -183,7 +188,7 @@ export default function CertificateShowcase({ certificates }: CertificateShowcas
                     onClick={() => setActiveCert(null)}
                     className="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold font-mono tracking-wider uppercase rounded-lg cursor-pointer"
                   >
-                    Tutup Detail
+                    {t("Tutup Detail", "Close Details")}
                   </button>
                 </div>
               </div>

@@ -2,42 +2,61 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLanguage } from "@/context/LanguageContext";
 import Image from "next/image";
 import { GraduationCap, Calendar, Award, X, BookOpen } from "lucide-react";
+import FloatingElements from "@/components/FloatingElements";
 
 export default function Education() {
   const [activeEdu, setActiveEdu] = useState<any | null>(null);
+  const { t } = useLanguage();
 
   const educationList = [
     {
-      degree: "S1 Kesehatan Masyarakat (S.KL.)",
-      major: "Peminatan Keselamatan dan Kesehatan Kerja (K3)",
+      degree: t("S1 Kesehatan Masyarakat (S.KL.)", "Bachelor of Public Health (S.KL.)"),
+      major: t("Peminatan Keselamatan dan Kesehatan Kerja (K3)", "Specializing in Occupational Health and Safety (OHS)"),
       institution: "Universitas Pembangunan Nasional Veteran Jakarta",
-      period: "Agustus 2022 - Januari 2026",
-      gpa: "IPK 3.88 / 4.00 (Cum Laude)",
-      details: "Mempelajari Higiene Industri, Epidemiologi Kerja, Sistem Manajemen Keselamatan dan Kesehatan Kerja (SMK3), Ergonomi, dan Analisis Dampak Lingkungan (AMDAL). Aktif dalam organisasi kemahasiswaan bidang K3.",
+      period: t("Agustus 2022 - Januari 2026", "August 2022 - January 2026"),
+      gpa: t("IPK 3.88 / 4.00 (Cum Laude)", "GPA 3.88 / 4.00 (Cum Laude)"),
+      details: t(
+        "Mempelajari Higiene Industri, Epidemiologi Kerja, Sistem Manajemen Keselamatan dan Kesehatan Kerja (SMK3), Ergonomi, dan Analisis Dampak Lingkungan (AMDAL). Aktif dalam organisasi kemahasiswaan bidang K3.",
+        "Studying Industrial Hygiene, Occupational Epidemiology, OHS Management System (SMK3), Ergonomics, and Environmental Impact Assessment (AMDAL). Active in OHS student organizations."
+      ),
       highlights: [
-        "Lulus dengan predikat Pujian (Cum Laude)",
-        "Spesialisasi riset: Keselamatan dan Kesehatan Kerja (K3)",
-        "Tesis systematic review mengenai perbandingan status gizi bayi",
+        t("Lulus dengan predikat Pujian (Cum Laude)", "Graduated with honors (Cum Laude)"),
+        t("Spesialisasi riset: Keselamatan dan Kesehatan Kerja (K3)", "Research specialization: Occupational Health and Safety (OHS)"),
+        t("Tesis systematic review mengenai perbandingan status gizi bayi", "Systematic review thesis on comparison of infant nutritional status"),
       ]
     },
     {
-      degree: "Sekolah Menengah Atas",
-      major: "Jurusan Matematika dan Ilmu Pengetahuan Alam (MIPA)",
+      degree: t("Sekolah Menengah Atas", "High School"),
+      major: t("Jurusan Matematika dan Ilmu Pengetahuan Alam (MIPA)", "Mathematics and Natural Sciences (MIPA)"),
       institution: "SMAN 104 Jakarta",
-      period: "Juli 2019 - Agustus 2022",
+      period: t("Juli 2019 - Agustus 2022", "July 2019 - August 2022"),
       gpa: null,
-      details: "Aktif dalam kegiatan akademik MIPA dan ekstrakurikuler kepemimpinan serta organisasi sekolah.",
+      details: t(
+        "Aktif dalam kegiatan akademik MIPA dan ekstrakurikuler kepemimpinan serta organisasi sekolah.",
+        "Active in MIPA academic activities, leadership extracurriculars, and school organizations."
+      ),
       highlights: [
-        "Fokus peminatan Sains (Fisika, Kimia, Biologi, Matematika)",
-        "Aktif dalam kegiatan organisasi internal sekolah",
+        t("Fokus peminatan Sains (Fisika, Kimia, Biologi, Matematika)", "Focused on Science (Physics, Chemistry, Biology, Mathematics)"),
+        t("Aktif dalam kegiatan organisasi internal sekolah", "Active in school internal organizations"),
       ]
     },
   ];
 
   return (
     <section id="education" className="min-h-screen bg-[#FDFBF7] text-[#0B1D17] relative overflow-hidden flex flex-col lg:flex-row border-b border-[#E8E2D5]">
+      {/* Slow floating background elements */}
+      <motion.div
+        animate={{
+          x: [0, 60, -30, 0],
+          y: [0, 40, -40, 0],
+        }}
+        transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/4 left-1/4 w-80 h-80 rounded-full bg-[#6B0F0F]/3 blur-[100px] pointer-events-none z-0"
+      />
+      <FloatingElements count={5} color="#6B0F0F" />
       
       {/* Left Column: Education Content */}
       <div className="lg:w-1/2 p-8 md:p-16 flex flex-col justify-center relative z-10">
@@ -49,7 +68,7 @@ export default function Education() {
             viewport={{ once: true }}
             className="text-6xl md:text-8xl font-display font-extrabold uppercase tracking-tight text-[#6B0F0F] italic"
           >
-            Education
+            {t("Pendidikan", "Education")}
           </motion.h2>
 
           {/* Education Cards */}
@@ -85,7 +104,7 @@ export default function Education() {
                   )}
                   
                   <span className="block text-[9px] font-mono text-[#6B0F0F] font-bold mt-3 group-hover:underline">
-                    Lihat detail &rarr;
+                    {t("Lihat detail →", "View details →")}
                   </span>
                 </div>
               </motion.div>
@@ -97,7 +116,7 @@ export default function Education() {
       {/* Right Column: Campus Image */}
       <div className="lg:w-1/2 min-h-[40vh] lg:min-h-screen relative border-t lg:border-t-0 lg:border-l border-[#E8E2D5]">
         <Image
-          src="/gita_campus.png"
+          src="/gita_campus_new.png"
           alt="UPN Veteran Jakarta Campus Peer Group"
           fill
           className="object-cover object-center"
@@ -105,6 +124,11 @@ export default function Education() {
         />
         {/* Overlay gradient */}
         <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-[#FDFBF7]/40 to-transparent pointer-events-none" />
+        
+        {/* Campus Caption Badge */}
+        <div className="absolute bottom-6 right-6 bg-white/80 backdrop-blur-md border border-[#E8E2D5] px-4 py-2 rounded-full shadow-sm text-xs font-mono text-[#6B0F0F] font-bold z-10">
+          {t("Jakarta • Kampus FIKES 2026", "Jakarta • FIKES Campus 2026")}
+        </div>
       </div>
 
       {/* Detail Modal */}
@@ -141,7 +165,7 @@ export default function Education() {
                   </div>
                   <div>
                     <span className="text-[10px] font-mono text-[#6B0F0F] font-bold uppercase tracking-wider block">
-                      Pendidikan Resmi
+                      {t("Pendidikan Resmi", "Official Education")}
                     </span>
                     <h3 className="text-base font-bold text-[#0B1D17] leading-snug">
                       {activeEdu.degree}
@@ -153,19 +177,19 @@ export default function Education() {
                   <div className="flex items-start gap-3 p-3 bg-[#FAF6EE] rounded-2xl border border-[#E8E2D5] text-xs">
                     <Calendar className="text-[#66756F] shrink-0 mt-0.5" size={16} />
                     <div>
-                      <div className="text-[#66756F] font-mono uppercase tracking-wider text-[9px]">Institusi & Periode</div>
+                      <div className="text-[#66756F] font-mono uppercase tracking-wider text-[9px]">{t("Institusi & Periode", "Institution & Period")}</div>
                       <div className="text-[#0B1D17] font-bold mt-0.5">{activeEdu.institution} ({activeEdu.period})</div>
                     </div>
                   </div>
 
                   <div className="p-3 bg-[#FAF6EE] rounded-2xl border border-[#E8E2D5] text-xs">
-                    <div className="text-[#66756F] font-mono uppercase tracking-wider text-[9px] mb-1">Kurikulum & Studi</div>
+                    <div className="text-[#66756F] font-mono uppercase tracking-wider text-[9px] mb-1">{t("Kurikulum & Studi", "Curriculum & Studies")}</div>
                     <p className="text-[#66756F] leading-relaxed">{activeEdu.details}</p>
                   </div>
                 </div>
 
                 <div className="mt-4 flex flex-col gap-2">
-                  <span className="text-[9px] font-mono uppercase tracking-wider text-[#66756F] font-bold">Pencapaian Kunci</span>
+                  <span className="text-[9px] font-mono uppercase tracking-wider text-[#66756F] font-bold">{t("Pencapaian Kunci", "Key Achievements")}</span>
                   <div className="flex flex-col gap-1.5">
                     {activeEdu.highlights.map((hl: string, idx: number) => (
                       <span
@@ -184,7 +208,7 @@ export default function Education() {
                     onClick={() => setActiveEdu(null)}
                     className="px-5 py-2.5 bg-[#6B0F0F] hover:bg-[#540c0c] text-white text-xs font-bold font-mono tracking-wider uppercase rounded-2xl cursor-pointer"
                   >
-                    Tutup
+                    {t("Tutup", "Close")}
                   </button>
                 </div>
               </div>

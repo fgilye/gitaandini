@@ -3,81 +3,64 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ClipboardCheck, Eye, CheckSquare, Calendar, Briefcase, X } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
+import FloatingElements from "@/components/FloatingElements";
 
-export default function Timeline() {
+export default function Timeline({ items }: { items?: any[] }) {
   const [activeExp, setActiveExp] = useState<any | null>(null);
+  const { t } = useLanguage();
 
-  const experiences = [
-    {
-      role: "ISO & SHE Administration Intern",
-      company: "PT Anugerah Mortar Abadi - Bogor, Jawa Barat",
-      period: "Apr 2026 - Present",
-      description:
-        "Perusahaan manufaktur semen instan (ready-mix mortar) untuk konstruksi. Membantu penyusunan dan pengawasan kepatuhan sistem manajemen K3 perusahaan.",
-      highlights: [
-        "Membantu penyusunan & review dokumen SMK3 sesuai standar ISO 45001",
-        "Mendukung administrasi & pengendalian izin kerja (work permit) berisiko tinggi",
-        "Melakukan identifikasi bahaya & penilaian risiko dasar (HIRA/JSA) di area produksi",
-        "Membantu document control & pengelolaan arsip SHE untuk kesiapan audit",
-      ],
-      icon: ClipboardCheck,
-      gallery: [
-        {
-          img: "/extracted/page_9_img_2.jpeg",
-          title: "ISO & SMK3 DOCUMENTATION",
-          desc: "Membantu penyusunan dan pengembangan dokumen SMK3 sesuai dengan standar ISO 45001."
-        },
-        {
-          img: "/extracted/page_9_img_3.jpeg",
-          title: "HAZARD IDENTIFICATION & AUDIT READINESS",
-          desc: "Melakukan identifikasi bahaya (HIRA/JSA) pada area produksi mortar dan mendukung kesiapan audit SHE."
-        }
-      ]
-    },
-    {
-      role: "HSSE Intern",
-      company: "PT PLN (Persero) Unit Layanan Transmisi dan Gardu Induk (ULTG) Cawang - Jakarta",
-      period: "Okt 2025 - Des 2025",
-      description:
-        "Mengawasi keselamatan operasional gardu induk transmisi listrik dan memastikan kepatuhan regulasi K3.",
-      highlights: [
-        "Melakukan inspeksi keselamatan rutin di area gardu induk untuk mengidentifikasi unsafe conditions",
-        "Melakukan inspeksi kelayakan fungsi Alat Pemadam Api Ringan (APAR)",
-        "Memantau kepatuhan penggunaan APD di area operasional gardu induk",
-        "Mendokumentasikan temuan inspeksi serta memantau tindak lanjut tindakan korektif",
-      ],
-      icon: Eye,
-      gallery: [
-        {
-          img: "/extracted/page_8_img_2.jpeg",
-          title: "MONITORING APD",
-          desc: "Melakukan pemantauan penggunaan Alat Pelindung Diri (APD) pada pekerja di area operasional gardu induk. Memastikan kepatuhan penggunaan APD sesuai standar keselamatan kerja guna meminimalkan potensi risiko."
-        },
-        {
-          img: "/extracted/page_8_img_4.jpeg",
-          title: "INSPEKSI APAR",
-          desc: "Melakukan inspeksi Alat Pemadam Api Ringan (APAR) untuk memastikan kondisi, kelayakan fungsi, serta penempatan sesuai dengan standar keselamatan. Mengidentifikasi potensi ketidaksesuaian sebagai upaya pencegahan dalam kondisi darurat."
-        },
-        {
-          img: "/extracted/page_8_img_3.jpeg",
-          title: "SAFETY BRIEFING & OBSERVASI",
-          desc: "Mengikuti kegiatan safety briefing serta melakukan observasi pada aktivitas pengujian di area berisiko tinggi."
-        }
-      ]
-    },
-  ];
+  const parseJson = (str: string, fallback: any) => {
+    if (!str) return fallback;
+    try { return JSON.parse(str); } catch { return fallback; }
+  };
+
+  const getBilingual = (str: string) => {
+    if (!str) return "";
+    const parts = str.split(" | ");
+    return parts.length > 1 ? t(parts[0], parts[1]) : str;
+  };
+
+  const experiences = (items || []).map(item => ({
+    ...item,
+    role: item.role,
+    company: item.company,
+    period: item.period,
+    description: item.description,
+    highlights: parseJson(item.highlights, []).map((h: string) => getBilingual(h)),
+    gallery: parseJson(item.gallery, []).map((g: any) => ({
+      img: g.img,
+      title: getBilingual(g.title || ""),
+      desc: getBilingual(g.desc || "")
+    })),
+    icon: Briefcase
+  }));
 
   return (
     <section id="experience" className="py-20 bg-[#FAF6EE] text-[#0B1D17] relative overflow-hidden border-b border-[#E8E2D5]">
+      {/* Slow floating background elements */}
+      <motion.div
+        animate={{
+          x: [0, -50, 50, 0],
+          y: [0, 60, -60, 0],
+        }}
+        transition={{ duration: 28, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/3 right-1/4 w-80 h-80 rounded-full bg-[#6B0F0F]/3 blur-[100px] pointer-events-none z-0"
+      />
+      <FloatingElements count={6} color="#6B0F0F" />
+
       <div className="absolute inset-0 bg-[radial-gradient(#6B0F0F02_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 font-sans">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-extrabold tracking-tight text-[#0B1D17] sm:text-5xl uppercase font-display italic">
-            Pengalaman <span className="text-[#6B0F0F] glow-maroon">Kerja</span>
+            {t("Pengalaman ", "Work ")}<span className="text-[#6B0F0F] glow-maroon">{t("Kerja", "Experience")}</span>
           </h2>
           <p className="mt-4 text-[#66756F] text-sm font-sans">
-            Kontribusi nyata Gita Andini dalam menjaga kepatuhan regulasi keselamatan dan pencegahan bahaya di sektor manufaktur semen dan kelistrikan nasional.
+            {t(
+              "Kontribusi nyata Gita Andini dalam menjaga kepatuhan regulasi keselamatan dan pencegahan bahaya di sektor manufaktur semen dan kelistrikan nasional.",
+              "Gita Andini's tangible contribution to maintaining safety regulation compliance and hazard prevention in the cement manufacturing and national electrical sectors."
+            )}
           </p>
         </div>
 

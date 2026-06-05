@@ -3,61 +3,98 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FileText, X, BookOpen, Calendar, CheckSquare } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
+import FloatingElements from "@/components/FloatingElements";
 
 export default function Publications() {
+  const { t } = useLanguage();
   const [activePub, setActivePub] = useState<any | null>(null);
 
   const publications = [
     {
-      title:
+      title: t(
         "PERBANDINGAN STATUS GIZI BAYI YANG MENDAPATKAN ASI EKSKLUSIF DAN ASI PARSIAL: SYSTEMATIC REVIEW",
-      journal: "Jurnal Ilmu Kesehatan Masyarakat (J-Kesmas) Universitas Al Asyariah Mandar",
+        "COMPARISON OF NUTRITIONAL STATUS OF INFANTS RECEIVING EXCLUSIVE BREASTFEEDING AND PARTIAL BREASTFEEDING: A SYSTEMATIC REVIEW"
+      ),
+      journal: t(
+        "Jurnal Ilmu Kesehatan Masyarakat (J-Kesmas) Universitas Al Asyariah Mandar",
+        "Journal of Public Health Sciences (J-Kesmas) Universitas Al Asyariah Mandar"
+      ),
       year: "2024",
-      type: "Systematic Review",
-      details: "Penelitian ini membandingkan status gizi bayi usia 0-6 bulan yang menerima ASI Eksklusif dengan bayi yang mendapat ASI parsial/tambahan. Menggunakan metodologi penelusuran artikel terindeks SINTA & Google Scholar.",
+      type: t("Systematic Review", "Systematic Review"),
+      details: t(
+        "Penelitian ini membandingkan status gizi bayi usia 0-6 bulan yang menerima ASI Eksklusif dengan bayi yang mendapat ASI parsial/tambahan. Menggunakan metodologi penelusuran artikel terindeks SINTA & Google Scholar.",
+        "This study compares the nutritional status of infants aged 0-6 months who receive Exclusive Breastfeeding with infants who receive partial/complementary breastfeeding. Using a search methodology of SINTA & Google Scholar indexed articles."
+      ),
       highlights: [
-        "Metode: Systematic Review dari 15+ studi klinis terakreditasi",
-        "Hasil: Bayi dengan ASI eksklusif menunjukkan persentase status gizi normal yang signifikan lebih tinggi",
-        "Kontribusi: Memberikan landasan bukti ilmiah untuk promosi program laktasi di puskesmas"
+        t("Metode: Systematic Review dari 15+ studi klinis terakreditasi", "Method: Systematic Review of 15+ accredited clinical studies"),
+        t("Hasil: Bayi dengan ASI eksklusif menunjukkan persentase status gizi normal yang signifikan lebih tinggi", "Result: Infants with exclusive breastfeeding show a significantly higher percentage of normal nutritional status"),
+        t("Kontribusi: Memberikan landasan bukti ilmiah untuk promosi program laktasi di puskesmas", "Contribution: Provides a scientific evidence base for the promotion of lactation programs in community health centers (Puskesmas)")
       ]
     },
     {
-      title:
+      title: t(
         "Penyuluhan Untuk Meningkatkan Pemahaman Mengenai Kesehatan Mental Terhadap Siswa Kelas 7B SMP Negeri 223 Jakarta",
+        "Counseling to Improve Mental Health Understanding for Grade 7B Students of SMP Negeri 223 Jakarta"
+      ),
       journal: "Journal of Human and Education (JAHE)",
       year: "2024",
-      type: "Community Education Article",
-      details: "Artikel pengabdian masyarakat ini mendokumentasikan intervensi edukasi interaktif mengenai deteksi dini stres akademis dan tindakan anti-bullying di kalangan siswa SMP.",
+      type: t("Community Education Article", "Community Education Article"),
+      details: t(
+        "Artikel pengabdian masyarakat ini mendokumentasikan intervensi edukasi interaktif mengenai deteksi dini stres akademis dan tindakan anti-bullying di kalangan siswa SMP.",
+        "This community service article documents interactive educational interventions regarding early detection of academic stress and anti-bullying actions among junior high school students."
+      ),
       highlights: [
-        "Intervensi: Sesi edukasi interaktif menggunakan kuis digital dan roleplay",
-        "Hasil: Peningkatan pemahaman kesehatan mental siswa sebesar 35% berdasarkan hasil pre & post-test",
-        "Implementasi: Pembentukan sudut konseling teman sebaya (peer counseling) di kelas"
+        t("Intervensi: Sesi edukasi interaktif menggunakan kuis digital dan roleplay", "Intervention: Interactive education sessions using digital quizzes and roleplay"),
+        t("Hasil: Peningkatan pemahaman kesehatan mental siswa sebesar 35% berdasarkan hasil pre & post-test", "Result: 35% improvement in students' mental health understanding based on pre & post-test results"),
+        t("Implementasi: Pembentukan sudut konseling teman sebaya (peer counseling) di kelas", "Implementation: Establishment of a peer counseling corner in the classroom")
       ]
     },
     {
-      title:
+      title: t(
         "Upaya Membangun Generasi Unggul dengan Menanamkan Unsur Kepemimpinan pada Remaja: Literature Review",
-      journal: "Jurnal Pendidikan Tambusai",
+        "Efforts to Build an Excellent Generation by Instilling Leadership Elements in Adolescents: Literature Review"
+      ),
+      journal: t("Jurnal Pendidikan Tambusai", "Tambusai Education Journal"),
       year: "2024",
-      type: "Literature Review",
-      details: "Menganalisis berbagai model pelatihan kepemimpinan remaja berbasis kegiatan ekstrakurikuler sekolah dalam membentuk karakter disiplin, kepedulian sosial, dan tanggung jawab personal.",
+      type: t("Literature Review", "Literature Review"),
+      details: t(
+        "Menganalisis berbagai model pelatihan kepemimpinan remaja berbasis kegiatan ekstrakurikuler sekolah dalam membentuk karakter disiplin, kepedulian sosial, dan tanggung jawab personal.",
+        "Analyzing various school extracurricular-based youth leadership training models in forming characters of discipline, social concern, and personal responsibility."
+      ),
       highlights: [
-        "Fokus: Teori pembentukan karakter remaja dan kepemimpinan transformasional",
-        "Metodologi: Sintesis pustaka dari 10 tahun terakhir publikasi pendidikan nasional",
-        "Kesimpulan: Pentingnya integrasi softskills kepemimpinan dalam kurikulum kokurikuler"
+        t("Fokus: Teori pembentukan karakter remaja dan kepemimpinan transformasional", "Focus: Youth character building theory and transformational leadership"),
+        t("Metodologi: Sintesis pustaka dari 10 tahun terakhir publikasi pendidikan nasional", "Methodology: Literature synthesis from the last 10 years of national education publications"),
+        t("Kesimpulan: Pentingnya integrasi softskills kepemimpinan dalam kurikulum kokurikuler", "Conclusion: The importance of integrating leadership soft skills in the co-curricular curriculum")
       ]
     },
   ];
 
   return (
     <section id="publications" className="py-20 bg-[#FAF6EE] text-[#0B1D17] relative overflow-hidden font-sans border-b border-[#E8E2D5]">
+      {/* Slow floating background orb */}
+      <motion.div
+        animate={{
+          x: [0, -40, 40, 0],
+          y: [0, 50, -50, 0],
+        }}
+        transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/3 right-1/3 w-80 h-80 rounded-full bg-[#6B0F0F]/3 blur-[100px] pointer-events-none z-0"
+      />
+      <FloatingElements count={5} color="#6B0F0F" />
+
+      <div className="absolute inset-0 bg-[radial-gradient(#6B0F0F02_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
+
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16 font-sans">
           <h2 className="text-4xl font-extrabold tracking-tight sm:text-5xl uppercase font-display italic text-[#0B1D17]">
-            Publikasi <span className="text-[#6B0F0F] glow-maroon">Jurnal & Karya Ilmiah</span>
+            {t("Publikasi ", "Journal Publications ")}<span className="text-[#6B0F0F] glow-maroon">{t("& Karya Ilmiah", "& Scientific Papers")}</span>
           </h2>
           <p className="mt-4 text-[#66756F] text-sm font-sans">
-            Artikel riset ilmiah dan publikasi kesehatan masyarakat yang ditulis oleh Gita Andini.
+            {t(
+              "Artikel riset ilmiah dan publikasi kesehatan masyarakat yang ditulis oleh Gita Andini.",
+              "Scientific research articles and public health publications authored by Gita Andini."
+            )}
           </p>
         </div>
 
@@ -93,7 +130,7 @@ export default function Publications() {
                 </p>
                 
                 <span className="block text-[9.5px] font-mono text-[#6B0F0F] font-bold mt-2.5 group-hover:underline">
-                  Lihat abstrak riset &rarr;
+                  {t("Lihat abstrak riset →", "View research abstract →")}
                 </span>
               </div>
             </motion.div>
@@ -147,19 +184,19 @@ export default function Publications() {
                   <div className="flex items-start gap-3 p-3 bg-[#FAF6EE] rounded-2xl border border-[#E8E2D5] text-xs">
                     <Calendar className="text-[#66756F] shrink-0 mt-0.5" size={16} />
                     <div>
-                      <div className="text-[#66756F] font-mono uppercase tracking-wider text-[9px]">Jurnal & Tahun</div>
+                      <div className="text-[#66756F] font-mono uppercase tracking-wider text-[9px]">{t("Jurnal & Tahun", "Journal & Year")}</div>
                       <div className="text-[#0B1D17] font-bold mt-0.5">{activePub.journal} ({activePub.year})</div>
                     </div>
                   </div>
 
                   <div className="p-3 bg-[#FAF6EE] rounded-2xl border border-[#E8E2D5] text-xs">
-                    <div className="text-[#66756F] font-mono uppercase tracking-wider text-[9px] mb-1">Abstrak / Ringkasan Riset</div>
+                    <div className="text-[#66756F] font-mono uppercase tracking-wider text-[9px] mb-1">{t("Abstrak / Ringkasan Riset", "Abstract / Research Summary")}</div>
                     <p className="text-[#66756F] leading-relaxed">{activePub.details}</p>
                   </div>
                 </div>
 
                 <div className="mt-4 flex flex-col gap-2">
-                  <span className="text-[9px] font-mono uppercase tracking-wider text-[#66756F] font-bold">Metodologi & Temuan Utama</span>
+                  <span className="text-[9px] font-mono uppercase tracking-wider text-[#66756F] font-bold">{t("Metodologi & Temuan Utama", "Methodology & Key Findings")}</span>
                   <div className="flex flex-col gap-2 mt-1">
                     {activePub.highlights.map((hl: string, idx: number) => (
                       <div
@@ -178,7 +215,7 @@ export default function Publications() {
                     onClick={() => setActivePub(null)}
                     className="px-5 py-2.5 bg-[#6B0F0F] hover:bg-[#540c0c] text-white text-xs font-bold font-mono tracking-wider uppercase rounded-2xl cursor-pointer"
                   >
-                    Tutup
+                    {t("Tutup", "Close")}
                   </button>
                 </div>
               </div>

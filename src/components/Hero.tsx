@@ -3,15 +3,43 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { FileText, ArrowRight, ShieldCheck } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
+import FloatingElements from "@/components/FloatingElements";
 
 export default function Hero() {
+  const { t } = useLanguage();
+
   return (
     <section
       id="hero"
       className="min-h-screen relative overflow-hidden bg-[#FDFBF7] text-[#0B1D17] flex flex-col justify-between select-none"
     >
+      {/* Slow floating orb in light bottom half */}
+      <motion.div
+        animate={{
+          x: [0, -50, 40, 0],
+          y: [0, 40, -30, 0],
+          scale: [1, 0.9, 1.15, 1],
+        }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-10 right-10 w-80 h-80 rounded-full bg-[#6B0F0F]/5 blur-3xl pointer-events-none z-0"
+      />
+      <FloatingElements count={6} color="#6B0F0F" />
+
       {/* Top Half: Dark Maroon Background */}
-      <div className="absolute top-0 left-0 right-0 h-[55vh] bg-[#6B0F0F] z-0 flex flex-col justify-end pb-8 border-b-4 border-[#F0E3C0]/25">
+      <div className="absolute top-0 left-0 right-0 h-[55vh] bg-[#6B0F0F] z-0 flex flex-col justify-end pb-8 border-b-4 border-[#F0E3C0]/25 overflow-hidden">
+        {/* Slow floating orb in dark top half */}
+        <motion.div
+          animate={{
+            x: [0, 60, -40, 0],
+            y: [0, -40, 50, 0],
+            scale: [1, 1.1, 0.9, 1],
+          }}
+          transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-10 left-10 w-72 h-72 rounded-full bg-white/5 blur-3xl pointer-events-none"
+        />
+        <FloatingElements count={5} color="#FDFBF7" />
+
         {/* Background grids */}
         <div className="absolute inset-0 bg-[radial-gradient(#F0E3C004_1px,transparent_1px)] [background-size:20px_20px] opacity-30 pointer-events-none" />
 
@@ -28,7 +56,7 @@ export default function Hero() {
             transition={{ type: "spring", stiffness: 80 }}
             className="self-start bg-[#FAF6EE] text-[#6B0F0F] font-sans font-extrabold uppercase tracking-widest text-xs md:text-sm px-4 py-2 border border-[#6B0F0F]/20 shadow-md mb-2 rounded-full"
           >
-            HSE ENTHUSIAST
+            {t("ANTUSIAS K3", "HSE ENTHUSIAST")}
           </motion.div>
 
           {/* Large Heading: PORTEFOLIO using Playfair Display */}
@@ -39,7 +67,7 @@ export default function Hero() {
               transition={{ type: "spring", stiffness: 70, damping: 15 }}
               className="text-[11vw] font-display font-extrabold uppercase leading-none tracking-tight text-[#F0E3C0] relative -bottom-2 md:-bottom-6 select-none w-full text-center italic"
             >
-              Portofolio
+              {t("Portofolio", "Portfolio")}
             </motion.h1>
           </div>
         </div>
@@ -69,7 +97,7 @@ export default function Hero() {
             <div className="font-sans">
               <h3 className="text-sm font-black text-[#0B1D17] uppercase tracking-wider">GITA ANDINI</h3>
               <p className="text-[10px] text-[#66756F] font-mono uppercase tracking-widest mt-0.5 font-bold">
-                Keselamatan dan Kesehatan Kerja
+                {t("Keselamatan dan Kesehatan Kerja", "Occupational Health & Safety")}
               </p>
             </div>
           </motion.div>
@@ -86,13 +114,13 @@ export default function Hero() {
               download
               className="px-6 py-3.5 bg-[#6B0F0F] hover:bg-[#540c0c] text-white font-sans text-xs font-bold uppercase tracking-wider flex items-center gap-2 border border-[#6B0F0F]/20 transition-all rounded-full shadow-lg"
             >
-              <FileText size={14} /> Download CV & Portofolio
+              <FileText size={14} /> {t("Unduh CV & Portofolio", "Download CV & Portfolio")}
             </a>
             <a
               href="#about"
               className="px-6 py-3.5 bg-[#FAF6EE] hover:bg-[#eae3d5] border border-[#6B0F0F]/20 text-[#6B0F0F] font-sans text-xs font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-2 rounded-full"
             >
-              Mulai Eksplorasi <ArrowRight size={12} />
+              {t("Mulai Eksplorasi", "Start Exploring")} <ArrowRight size={12} />
             </a>
           </motion.div>
         </div>
@@ -120,7 +148,7 @@ export default function Hero() {
           >
             {/* Draggable tooltip hint */}
             <div className="absolute -top-7 left-1/2 -translate-x-1/2 bg-[#0B1D17] text-[#FDFBF7] border border-[#FDFBF7]/25 px-2 py-0.5 rounded text-[8px] font-mono uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-              Geser Foto 👆
+              {t("Geser Foto 👆", "Drag Photo 👆")}
             </div>
 
             {/* Paperclip illustration at top */}
@@ -131,7 +159,7 @@ export default function Hero() {
             {/* Polaroid paper picture area */}
             <div className="relative aspect-square w-full bg-zinc-100 overflow-hidden border border-zinc-200/80 pointer-events-none">
               <Image
-                src="/gita_safety.png"
+                src="/gita_safety_new.png"
                 alt="Gita Andini Safety Inspector"
                 fill
                 priority
@@ -141,13 +169,13 @@ export default function Hero() {
 
               {/* Glowing K3 approved stamp sticker */}
               <div className="absolute bottom-2 right-2 bg-emerald-900/90 border border-emerald-500/40 text-emerald-300 font-mono text-[7px] font-extrabold tracking-widest px-1.5 py-0.5 rounded uppercase flex items-center gap-1 shadow">
-                <ShieldCheck size={8} /> K3 APPROVED
+                <ShieldCheck size={8} /> {t("K3 APPROVED", "OHS APPROVED")}
               </div>
             </div>
 
             {/* Bottom text */}
             <div className="mt-4 text-center font-sans text-[9px] text-zinc-600 font-bold uppercase tracking-wider pointer-events-none">
-              GITA ANDINI &bull; SITE SURVEY
+              {t("GITA ANDINI • SURVEI LAPANGAN", "GITA ANDINI • SITE SURVEY")}
             </div>
           </motion.div>
         </motion.div>
