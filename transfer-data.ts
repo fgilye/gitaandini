@@ -2,7 +2,7 @@ import "dotenv/config";
 import Database from 'better-sqlite3';
 import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
-import { PrismaClient } from './src/generated/prisma/client.ts';
+import { PrismaClient } from './src/generated/prisma/client';
 
 async function main() {
   console.log("Menghubungkan ke PostgreSQL (Supabase)...");
@@ -73,7 +73,7 @@ main()
   .finally(async () => {
     const { Pool } = await import('pg');
     const { PrismaPg } = await import('@prisma/adapter-pg');
-    const { PrismaClient } = await import('./src/generated/prisma/client.ts');
+    const { PrismaClient } = await import('./src/generated/prisma/client');
     
     const pool = new Pool({ connectionString: process.env.DATABASE_URL });
     const adapter = new PrismaPg(pool);
