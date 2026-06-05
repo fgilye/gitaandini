@@ -22,7 +22,7 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: "Gita Andini | Professional HSE & K3 Specialist Portfolio",
-  description: "Portofolio profesional Gita Andini sebagai spesialis Health, Safety, and Environment (HSE). Berpengalaman mengelola keselamatan kerja lapangan, kepatuhan ISO 45001, dan sertifikasi Ahli K3 Umum.",
+  description: "Portofolio profesional Gita Andini sebagai spesialis Health, Safety, and Environment (HSE). Berpengalaman mengelola keselamatan kerja lapangan dan kepatuhan ISO 45001.",
 };
 
 export default function RootLayout({
