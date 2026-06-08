@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
 interface TrackPoint {
   x: number;
@@ -16,6 +17,7 @@ export default function TractorCursor() {
   const [mounted, setMounted] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const pathname = usePathname();
 
   // Position and movement refs
   const mousePos = useRef({ x: 0, y: 0 });
@@ -35,6 +37,7 @@ export default function TractorCursor() {
 
   useEffect(() => {
     if (!mounted) return;
+    if (pathname && (pathname.includes("generate-cv") || pathname.includes("generate-portfolio"))) return;
 
     // Inject style to hide default cursor and add beacon blink keyframe
     const style = document.createElement("style");
@@ -236,7 +239,7 @@ export default function TractorCursor() {
     };
   }, [mounted, isVisible, isHovered]);
 
-  if (!mounted) return null;
+  if (!mounted || (pathname && (pathname.includes("generate-cv") || pathname.includes("generate-portfolio")))) return null;
 
   return (
     <>

@@ -104,4 +104,5 @@ model PublicationItem {
   type        String
   details     String
   highlights  String // JSON string
+  link        String @default("")
 }

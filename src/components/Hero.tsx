@@ -6,7 +6,7 @@ import { FileText, ArrowRight, ShieldCheck } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import FloatingElements from "@/components/FloatingElements";
 
-export default function Hero() {
+export default function Hero({ config }: { config: any }) {
   const { t } = useLanguage();
 
   return (
@@ -56,7 +56,7 @@ export default function Hero() {
             transition={{ type: "spring", stiffness: 80 }}
             className="self-start bg-[#FAF6EE] text-[#6B0F0F] font-sans font-extrabold uppercase tracking-widest text-xs md:text-sm px-4 py-2 border border-[#6B0F0F]/20 shadow-md mb-2 rounded-full"
           >
-            {t("ANTUSIAS K3", "HSE ENTHUSIAST")}
+            {t(config.hero_tag_id || "ANTUSIAS K3", config.hero_tag_en || "HSE ENTHUSIAST")}
           </motion.div>
 
           {/* Large Heading: PORTEFOLIO using Playfair Display */}
@@ -97,7 +97,7 @@ export default function Hero() {
             <div className="font-sans">
               <h3 className="text-sm font-black text-[#0B1D17] uppercase tracking-wider">GITA ANDINI</h3>
               <p className="text-[10px] text-[#66756F] font-mono uppercase tracking-widest mt-0.5 font-bold">
-                {t("Keselamatan dan Kesehatan Kerja", "Occupational Health & Safety")}
+                {t(config.hero_subtitle_id || "Keselamatan dan Kesehatan Kerja", config.hero_subtitle_en || "Occupational Health & Safety")}
               </p>
             </div>
           </motion.div>
@@ -110,7 +110,9 @@ export default function Hero() {
             className="flex flex-wrap gap-4"
           >
             <a
-              href="/CV and Portfolio Gita Andini.pdf"
+              href={config.cv_download_url || "/CV and Portfolio Gita Andini.pdf"}
+              target="_blank"
+              rel="noopener noreferrer"
               download
               className="px-6 py-3.5 bg-[#6B0F0F] hover:bg-[#540c0c] text-white font-sans text-xs font-bold uppercase tracking-wider flex items-center gap-2 border border-[#6B0F0F]/20 transition-all rounded-full shadow-lg"
             >
@@ -175,7 +177,7 @@ export default function Hero() {
 
             {/* Bottom text */}
             <div className="mt-4 text-center font-sans text-[9px] text-zinc-600 font-bold uppercase tracking-wider pointer-events-none">
-              {t("GITA ANDINI • SURVEI LAPANGAN", "GITA ANDINI • SITE SURVEY")}
+              {t(config.hero_polaroid_id || "GITA ANDINI • SURVEI LAPANGAN", config.hero_polaroid_en || "GITA ANDINI • SITE SURVEY")}
             </div>
           </motion.div>
         </motion.div>

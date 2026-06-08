@@ -6,8 +6,9 @@ import {
   ShieldCheck, LogOut, Database, BookOpen, Briefcase, Star,
   FolderOpen, Users, FileText, MessageSquare, ChevronDown,
   ChevronUp, Plus, Trash2, Save, AlertTriangle, CheckCircle,
-  Eye, RefreshCw, Settings, X,
+  Eye, RefreshCw, Settings, X, Printer
 } from "lucide-react";
+import Swal from "sweetalert2";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -93,21 +94,6 @@ interface Props {
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
-
-function Toast({ msg, type }: { msg: string; type: "success" | "error" }) {
-  return (
-    <div
-      className={`fixed bottom-6 right-6 z-[999] flex items-center gap-2.5 px-5 py-3 rounded-2xl shadow-2xl text-sm font-semibold border transition-all ${
-        type === "success"
-          ? "bg-emerald-50 border-emerald-200 text-emerald-800"
-          : "bg-red-50 border-red-200 text-red-800"
-      }`}
-    >
-      {type === "success" ? <CheckCircle size={16} /> : <AlertTriangle size={16} />}
-      {msg}
-    </div>
-  );
-}
 
 function SectionCard({
   title,
@@ -234,6 +220,69 @@ function BilingualField({
         </div>
       </div>
       {hint && <p className="text-[10px] text-[#66756F]/70">{hint}</p>}
+    </div>
+  );
+}
+
+function FileUploadField({
+  label,
+  name,
+  defaultValue = "",
+  hint,
+  uploadAction
+}: {
+  label: string;
+  name: string;
+  defaultValue?: string;
+  hint?: string;
+  uploadAction: (fd: FormData) => Promise<string>;
+}) {
+  const [val, setVal] = useState(defaultValue);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const url = await uploadAction(fd);
+      setVal(url);
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Gagal mengunggah file',
+      });
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const base = "w-full px-3.5 py-2.5 rounded-xl border border-[#E8E2D5] bg-[#FDFBF7] text-[#0B1D17] text-sm focus:outline-none focus:ring-2 focus:ring-[#6B0F0F]/25 focus:border-[#6B0F0F] transition-all resize-none";
+
+  return (
+    <div className="space-y-2">
+      <label className="block text-[11px] font-mono uppercase tracking-wider text-[#66756F]">
+        {label}
+      </label>
+      {hint && <p className="text-[10px] text-[#66756F]/70">{hint}</p>}
+      <input type="hidden" name={name} value={val} />
+      
+      <div className="flex flex-col md:flex-row gap-3 items-center">
+        <label className="shrink-0 flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-[#E8E2D5] text-[#0B1D17] text-[13px] font-bold rounded-xl cursor-pointer hover:bg-gray-50 transition-colors">
+          {isUploading ? <span className="animate-pulse">Mengunggah...</span> : "Pilih File PDF"}
+          <input type="file" accept=".pdf" className="hidden" onChange={handleUpload} disabled={isUploading} />
+        </label>
+        {val && !isUploading && (
+          <span className="text-xs text-emerald-600 font-mono font-bold bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-100 flex items-center gap-1.5">
+            <CheckCircle size={14} /> Berhasil diunggah
+          </span>
+        )}
+      </div>
     </div>
   );
 }
@@ -540,7 +589,11 @@ function GalleryEditor({ defaultValue, name = "gallery", uploadAction }: { defau
       const url = await uploadAction(formData);
       updateItem(idx, "img", url);
     } catch (err) {
-      alert("Gagal mengunggah gambar");
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Gagal mengunggah gambar',
+      });
       console.error(err);
     } finally {
       setUploadingIdx(null);
@@ -677,14 +730,24 @@ export default function AdminDashboard({
   actions,
 }: Props) {
   const [isPending, startTransition] = useTransition();
-  const [toast, setToast] = useState<{ msg: string; type: "success" | "error" } | null>(null);
   const [activeTab, setActiveTab] = useState<string>("overview");
 
   // ── Helpers ────────────────────────────────────────────────────────────────
 
   function showToast(msg: string, type: "success" | "error" = "success") {
-    setToast({ msg, type });
-    setTimeout(() => setToast(null), 3500);
+    Swal.fire({
+      toast: true,
+      position: 'bottom-end',
+      showConfirmButton: false,
+      timer: 3500,
+      timerProgressBar: true,
+      icon: type,
+      title: msg,
+      customClass: {
+        popup: 'rounded-xl shadow-2xl border border-gray-100',
+        title: 'text-sm font-sans text-gray-800 font-semibold'
+      }
+    });
   }
 
   function act(fn: () => Promise<unknown>, successMsg = "Tersimpan!") {
@@ -710,15 +773,13 @@ export default function AdminDashboard({
     { id: "projects", label: "Proyek", icon: FolderOpen },
     { id: "organizations", label: "Organisasi", icon: Users },
     { id: "publications", label: "Publikasi", icon: FileText },
-    { id: "messages", label: "Pesan Masuk", icon: MessageSquare },
+    { id: "messages", label: "Kontak / Pesan", icon: MessageSquare },
   ];
 
   // ── Render ─────────────────────────────────────────────────────────────────
 
   return (
     <div className="min-h-screen bg-[#F7F4EF] flex flex-col">
-      {toast && <Toast msg={toast.msg} type={toast.type} />}
-
       {/* Top bar */}
       <header className="sticky top-0 z-40 bg-white border-b border-[#E8E2D5] shadow-sm">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -747,6 +808,22 @@ export default function AdminDashboard({
             >
               <Eye size={12} />
               Lihat Situs
+            </a>
+            <a
+              href="/generate-cv"
+              target="_blank"
+              className="flex items-center gap-1.5 px-3 py-2 text-[11px] font-mono rounded-xl bg-[#FAF6EE] border border-[#E8E2D5] text-[#6B0F0F] hover:bg-[#F0E3C0] transition-colors font-bold"
+            >
+              <Printer size={12} />
+              Cetak CV
+            </a>
+            <a
+              href="/generate-portfolio"
+              target="_blank"
+              className="flex items-center gap-1.5 px-3 py-2 text-[11px] font-mono rounded-xl bg-[#FAF6EE] border border-[#E8E2D5] text-[#6B0F0F] hover:bg-[#F0E3C0] transition-colors font-bold"
+            >
+              <Printer size={12} />
+              Cetak Portofolio
             </a>
             <form action={actions.logoutAction}>
               <button
@@ -977,10 +1054,7 @@ export default function AdminDashboard({
                     about_bullet1: "Poin Keunggulan 1 (About)",
                     about_bullet2: "Poin Keunggulan 2 (About)",
                     about_polaroid: "Teks Foto Polaroid (About)",
-                    contact_email: "Alamat Email Kontak",
-                    contact_phone: "Nomor Telepon",
-                    contact_linkedin: "URL Profil LinkedIn",
-                    contact_instagram: "URL Profil Instagram"
+                    cv_download_url: "URL Download CV & Portofolio"
                   };
 
                   for (const [key, value] of Object.entries(config)) {
@@ -1015,6 +1089,20 @@ export default function AdminDashboard({
                       continue;
                     }
 
+                    if (key === "cv_download_url") {
+                      handledKeys.add(key);
+                      elements.push(
+                        <FileUploadField 
+                          key={key} 
+                          label={labels[key]} 
+                          name={key} 
+                          defaultValue={value} 
+                          uploadAction={actions.uploadImageAction} 
+                        />
+                      );
+                      continue;
+                    }
+
                     // Jika tidak berpasangan
                     handledKeys.add(key);
                     const label = labels[key.toLowerCase()] || key.replace(/_/g, " ");
@@ -1023,6 +1111,29 @@ export default function AdminDashboard({
                       <Field key={key} label={label} name={key} defaultValue={value} multiline={isMultiline} />
                     );
                   }
+
+                  // Render input for keys defined in labels but not yet in config
+                  for (const [key, label] of Object.entries(labels)) {
+                    if (handledKeys.has(key) || handledKeys.has(key + "_id") || handledKeys.has(key + "_ID")) continue;
+                    
+                    if (key === "cv_download_url") {
+                      elements.push(
+                        <FileUploadField 
+                          key={key} 
+                          label={label} 
+                          name={key} 
+                          defaultValue="" 
+                          uploadAction={actions.uploadImageAction} 
+                        />
+                      );
+                      continue;
+                    }
+
+                    elements.push(
+                      <Field key={key} label={label} name={key} defaultValue="" multiline={false} />
+                    );
+                  }
+
                   return elements;
                 })()}
                 <button
@@ -1273,13 +1384,14 @@ export default function AdminDashboard({
                       <form onSubmit={(e) => {
                         e.preventDefault();
                         const fd = new FormData(e.currentTarget);
-                        act(() => actions.upsertPublicationItem({ id: pub.id, title: fd.get("title") as string, journal: fd.get("journal") as string, year: fd.get("year") as string, type: fd.get("type") as string, details: fd.get("details") as string, highlights: fd.get("highlights") as string }));
+                        act(() => actions.upsertPublicationItem({ id: pub.id, title: fd.get("title") as string, journal: fd.get("journal") as string, year: fd.get("year") as string, type: fd.get("type") as string, details: fd.get("details") as string, highlights: fd.get("highlights") as string, link: fd.get("link") as string }));
                       }} className="px-4 pb-4 border-t border-[#E8E2D5] grid grid-cols-2 gap-3 pt-3">
                         <div className="col-span-2"><BilingualField label="Judul" name="title" defaultValue={pub.title} /></div>
                         <BilingualField label="Jurnal" name="journal" defaultValue={pub.journal} />
                         <BilingualField label="Tahun" name="year" defaultValue={pub.year} />
                         <div className="col-span-2"><BilingualField label="Tipe" name="type" defaultValue={pub.type} /></div>
                         <div className="col-span-2"><BilingualField label="Detail" name="details" defaultValue={pub.details} multiline /></div>
+                        <div className="col-span-2"><Field label="URL Publikasi (Opsional)" name="link" defaultValue={pub.link || ""} multiline={false} /></div>
                         <div className="col-span-2"><HighlightsEditor defaultValue={pub.highlights} name="highlights" /></div>
                         <div className="col-span-2"><button type="submit" disabled={isPending} className="flex items-center gap-2 px-4 py-2 bg-[#6B0F0F] text-white text-xs font-bold rounded-xl hover:bg-[#540c0c] disabled:opacity-50"><Save size={12} /> Simpan</button></div>
                       </form>
@@ -1287,7 +1399,7 @@ export default function AdminDashboard({
                   </div>
                 ))}
               </div>
-              <button onClick={() => act(() => actions.upsertPublicationItem({ title: "Judul Publikasi", journal: "Jurnal", year: "2025", type: "Artikel", details: "", highlights: "[]" }), "Ditambahkan!")} disabled={isPending} className="mt-4 flex items-center gap-2 px-4 py-2 border-2 border-dashed border-[#E8E2D5] text-[#66756F] text-sm rounded-xl hover:border-[#6B0F0F] hover:text-[#6B0F0F] transition-colors disabled:opacity-50">
+              <button onClick={() => act(() => actions.upsertPublicationItem({ title: "Judul Publikasi", journal: "Jurnal", year: "2025", type: "Artikel", details: "", highlights: "[]", link: "" }), "Ditambahkan!")} disabled={isPending} className="mt-4 flex items-center gap-2 px-4 py-2 border-2 border-dashed border-[#E8E2D5] text-[#66756F] text-sm rounded-xl hover:border-[#6B0F0F] hover:text-[#6B0F0F] transition-colors disabled:opacity-50">
                 <Plus size={14} /> Tambah Publikasi
               </button>
             </SectionCard>
@@ -1295,8 +1407,36 @@ export default function AdminDashboard({
 
           {/* ── Messages ────────────────────────────────────────────────── */}
           {activeTab === "messages" && (
-            <SectionCard title="Pesan Masuk" icon={MessageSquare} count={messages.length}>
-              <div className="mt-5 space-y-3">
+            <div className="space-y-6">
+              <SectionCard title="Pengaturan Saluran Kontak" icon={Settings} count={3}>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    const fd = new FormData(e.currentTarget);
+                    const pairs: { key: string; value: string }[] = [];
+                    fd.forEach((v, k) => pairs.push({ key: k, value: v as string }));
+                    act(() => actions.upsertConfigBatch(pairs), "Kontak berhasil disimpan!");
+                  }}
+                  className="mt-5 space-y-4"
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <Field label="Alamat Email Kontak" name="contact_email" defaultValue={config.contact_email || ""} multiline={false} />
+                    <Field label="Teks Tampilan Email" name="contact_email_text" defaultValue={config.contact_email_text || ""} multiline={false} />
+                    
+                    <Field label="URL Profil LinkedIn" name="contact_linkedin" defaultValue={config.contact_linkedin || ""} multiline={false} />
+                    <Field label="Teks Tampilan LinkedIn" name="contact_linkedin_text" defaultValue={config.contact_linkedin_text || ""} multiline={false} />
+                    
+                    <Field label="URL Profil Instagram" name="contact_instagram" defaultValue={config.contact_instagram || ""} multiline={false} />
+                    <Field label="Teks Tampilan Instagram" name="contact_instagram_text" defaultValue={config.contact_instagram_text || ""} multiline={false} />
+                  </div>
+                  <button type="submit" disabled={isPending} className="flex items-center gap-2 px-5 py-2.5 bg-[#6B0F0F] text-white text-sm font-bold rounded-xl hover:bg-[#540c0c] transition-colors disabled:opacity-50">
+                    <Save size={14} /> Simpan Kontak
+                  </button>
+                </form>
+              </SectionCard>
+
+              <SectionCard title="Pesan Masuk" icon={MessageSquare} count={messages.length}>
+                <div className="mt-5 space-y-3">
                 {messages.length === 0 && (
                   <p className="text-sm text-[#66756F] italic text-center py-8">Belum ada pesan masuk.</p>
                 )}
@@ -1325,6 +1465,7 @@ export default function AdminDashboard({
                 ))}
               </div>
             </SectionCard>
+            </div>
           )}
         </main>
       </div>

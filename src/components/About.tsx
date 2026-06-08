@@ -6,7 +6,7 @@ import { User, Award, ShieldAlert, ShieldCheck } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import FloatingElements from "@/components/FloatingElements";
 
-export default function About() {
+export default function About({ config }: { config: any }) {
   const { t } = useLanguage();
 
   return (
@@ -45,7 +45,7 @@ export default function About() {
               viewport={{ once: true }}
               className="inline-flex items-center gap-1 bg-[#6B0F0F] text-white border border-[#6B0F0F]/20 px-4 py-1.5 rounded-full relative shadow-md"
             >
-              <span className="text-xs font-mono font-bold">{t("Halo, Saya", "Hello, I am")}</span>
+              <span className="text-xs font-mono font-bold">{t(config.about_balloon_id || "Halo, Saya", config.about_balloon_en || "Hello, I am")}</span>
               {/* Pointer cursor arrow */}
               <div className="absolute -bottom-2.5 right-4 w-3.5 h-3.5 bg-[#6B0F0F] transform rotate-45" />
             </motion.div>
@@ -76,14 +76,14 @@ export default function About() {
             >
               <p>
                 {t(
-                  "Saya adalah lulusan Kesehatan Masyarakat dengan fokus pada K3, memiliki pengalaman dalam inspeksi keselamatan, identifikasi bahaya, serta dokumentasi K3 di lingkungan industri kelistrikan dan manufaktur.",
-                  "I am a Public Health graduate specializing in Occupational Health and Safety (OHS), with experience in safety inspections, hazard identification, and OHS documentation in the electrical power and manufacturing industries."
+                  config.about_desc1_id || "Saya adalah lulusan Kesehatan Masyarakat dengan fokus pada K3, memiliki pengalaman dalam inspeksi keselamatan, identifikasi bahaya, serta dokumentasi K3 di lingkungan industri kelistrikan dan manufaktur.",
+                  config.about_desc1_en || "I am a Public Health graduate specializing in Occupational Health and Safety (OHS), with experience in safety inspections, hazard identification, and OHS documentation in the electrical power and manufacturing industries."
                 )}
               </p>
               <p>
                 {t(
-                  "Memahami dasar implementasi SMK3, work permit, dan pengendalian risiko kerja, serta berkomitmen untuk mendukung terciptanya lingkungan kerja yang aman dan sesuai standar.",
-                  "Understanding the basics of OHS management system (SMK3) implementation, work permits, and work risk control, and committed to supporting the creation of a safe and compliant working environment."
+                  config.about_desc2_id || "Memahami dasar implementasi SMK3, work permit, dan pengendalian risiko kerja, serta berkomitmen untuk mendukung terciptanya lingkungan kerja yang aman dan sesuai standar.",
+                  config.about_desc2_en || "Understanding the basics of OHS management system (SMK3) implementation, work permits, and work risk control, and committed to supporting the creation of a safe and compliant working environment."
                 )}
               </p>
             </motion.div>
@@ -91,11 +91,11 @@ export default function About() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
               <div className="flex items-start gap-2 text-xs font-mono text-[#0B1D17]">
                 <Award size={14} className="text-[#6B0F0F] mt-0.5 shrink-0" />
-                <span>{t("Kepatuhan ISO 45001 & SMK3", "ISO 45001 & SMK3 Compliance")}</span>
+                <span>{t(config.about_bullet1_id || "Kepatuhan ISO 45001 & SMK3", config.about_bullet1_en || "ISO 45001 & SMK3 Compliance")}</span>
               </div>
               <div className="flex items-start gap-2 text-xs font-mono text-[#0B1D17]">
                 <Award size={14} className="text-[#6B0F0F] mt-0.5 shrink-0" />
-                <span>{t("Pemantauan Kepatuhan APD", "PPE Compliance Monitoring")}</span>
+                <span>{t(config.about_bullet2_id || "Pemantauan Kepatuhan APD", config.about_bullet2_en || "PPE Compliance Monitoring")}</span>
               </div>
             </div>
           </div>
@@ -129,7 +129,7 @@ export default function About() {
 
               {/* Bottom text */}
               <div className="mt-4 text-center font-sans text-[10px] text-zinc-550 uppercase tracking-widest font-bold">
-                {t("Jakarta • Kampus FIKES 2026", "Jakarta • FIKES Campus 2026")}
+                {t(config.about_polaroid_id || "Jakarta • Kampus FIKES 2026", config.about_polaroid_en || "Jakarta • FIKES Campus 2026")}
               </div>
             </div>
           </motion.div>

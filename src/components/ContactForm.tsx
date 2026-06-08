@@ -7,7 +7,21 @@ import { submitMessage } from "@/app/actions";
 import { useLanguage } from "@/context/LanguageContext";
 import FloatingElements from "@/components/FloatingElements";
 
-export default function ContactForm() {
+export default function ContactForm({
+  contactEmail = "gita.andini@email.com",
+  contactLinkedin = "https://linkedin.com",
+  contactInstagram = "https://instagram.com",
+  contactEmailText,
+  contactLinkedinText,
+  contactInstagramText
+}: {
+  contactEmail?: string;
+  contactLinkedin?: string;
+  contactInstagram?: string;
+  contactEmailText?: string;
+  contactLinkedinText?: string;
+  contactInstagramText?: string;
+}) {
   const { t } = useLanguage();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -98,7 +112,7 @@ export default function ContactForm() {
                 <div className="space-y-3">
                   {/* Email */}
                   <a
-                    href="mailto:gita.andini@email.com"
+                    href={`mailto:${contactEmail}`}
                     className="flex items-center gap-3.5 p-3 bg-[#FAF6EE] hover:bg-[#6B0F0F]/5 rounded-2xl border border-[#E8E2D5]/50 group transition-all"
                   >
                     <div className="bg-white border border-[#6B0F0F]/15 w-9 h-9 rounded-xl flex items-center justify-center text-[#6B0F0F] shrink-0 group-hover:bg-[#6B0F0F] group-hover:text-white transition-colors">
@@ -106,13 +120,13 @@ export default function ContactForm() {
                     </div>
                     <div className="overflow-hidden">
                       <div className="text-[9px] font-mono text-[#66756F] uppercase tracking-wider">Email</div>
-                      <div className="text-xs text-[#0B1D17] font-bold truncate">gita.andini@email.com</div>
+                      <div className="text-xs text-[#0B1D17] font-bold truncate">{contactEmailText || contactEmail}</div>
                     </div>
                   </a>
 
                   {/* LinkedIn */}
                   <a
-                    href="https://linkedin.com"
+                    href={contactLinkedin.startsWith('http') ? contactLinkedin : `https://${contactLinkedin}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-3.5 p-3 bg-[#FAF6EE] hover:bg-[#6B0F0F]/5 rounded-2xl border border-[#E8E2D5]/50 group transition-all"
@@ -124,13 +138,13 @@ export default function ContactForm() {
                     </div>
                     <div className="overflow-hidden">
                       <div className="text-[9px] font-mono text-[#66756F] uppercase tracking-wider">LinkedIn</div>
-                      <div className="text-xs text-[#0B1D17] font-bold truncate">Gita Andini</div>
+                      <div className="text-xs text-[#0B1D17] font-bold truncate">{contactLinkedinText || "Profil LinkedIn"}</div>
                     </div>
                   </a>
 
                   {/* Instagram */}
                   <a
-                    href="https://instagram.com"
+                    href={contactInstagram.startsWith('http') ? contactInstagram : `https://${contactInstagram}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-3.5 p-3 bg-[#FAF6EE] hover:bg-[#6B0F0F]/5 rounded-2xl border border-[#E8E2D5]/50 group transition-all"
@@ -144,7 +158,7 @@ export default function ContactForm() {
                     </div>
                     <div className="overflow-hidden">
                       <div className="text-[9px] font-mono text-[#66756F] uppercase tracking-wider">Instagram</div>
-                      <div className="text-xs text-[#0B1D17] font-bold truncate">@gitaandini</div>
+                      <div className="text-xs text-[#0B1D17] font-bold truncate">{contactInstagramText || "Profil Instagram"}</div>
                     </div>
                   </a>
 

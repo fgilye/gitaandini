@@ -44,6 +44,8 @@ export async function seedDatabase() {
         // About Polaroid caption
         { key: "about_polaroid_id", value: "Jakarta • Kampus FIKES 2026" },
         { key: "about_polaroid_en", value: "Jakarta • FIKES Campus 2026" },
+        // CV Download URL
+        { key: "cv_download_url", value: "/CV and Portfolio Gita Andini.pdf" },
       ];
 
       for (const conf of configs) {

@@ -31,7 +31,7 @@ body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
-  overflow-x: hidden;
+  overflow-x: clip; /* FIX: Use clip instead of hidden to prevent iOS IntersectionObserver issues that break framer-motion */
   letter-spacing: -0.015em;
 }
 
@@ -137,3 +137,63 @@ body {
 .font-mono {
   font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif !important;
 }
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+  
+  body {
+    background: white !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  .print\:hidden {
+    display: none !important;
+  }
+
+  .print\:shadow-none {
+    box-shadow: none !important;
+  }
+
+  .print\:m-0 {
+    margin: 0 !important;
+  }
+
+  .print\:w-full {
+    width: 100% !important;
+  }
+
+  .print\:max-w-none {
+    max-width: none !important;
+  }
+
+  .print\:pb-0 {
+    padding-bottom: 0 !important;
+  }
+  
+  .print\:p-\[10mm\] {
+    padding: 10mm !important;
+  }
+
+  .print\:p-0 {
+    padding: 0 !important;
+  }
+  
+  .print\:bg-white {
+    background-color: white !important;
+  }
+  
+  .break-before-page {
+    page-break-before: always !important;
+    break-before: page !important;
+  }
+  
+  .break-inside-avoid {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+}
+

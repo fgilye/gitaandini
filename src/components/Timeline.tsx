@@ -69,13 +69,6 @@ export default function Timeline({ items }: { items?: any[] }) {
             const Icon = exp.icon;
             return (
               <div key={exp.company + index} className="mb-12 relative pl-8 md:pl-12">
-                {/* Period tag for desktop */}
-                <div className="hidden md:block absolute -left-36 top-1 text-right w-28 text-xs font-mono font-bold text-[#66756F]">
-                  <span className="bg-white border border-[#E8E2D5] px-3.5 py-1 rounded-full text-[#6B0F0F] shadow-sm">
-                    {exp.period}
-                  </span>
-                </div>
-
                 {/* Timeline Node Icon */}
                 <div className="absolute -left-4 top-1 w-8 h-8 rounded-full bg-white border border-[#6B0F0F] flex items-center justify-center text-[#6B0F0F] shadow-md">
                   <Icon size={14} />
@@ -91,12 +84,15 @@ export default function Timeline({ items }: { items?: any[] }) {
                   onClick={() => setActiveExp(exp)}
                   className="glass p-6 rounded-3xl border border-[#E8E2D5] relative bg-white shadow-sm cursor-pointer group"
                 >
-                  <span className="inline-block md:hidden bg-white border border-[#E8E2D5] px-3 py-0.5 rounded-full text-[10px] font-mono text-[#6B0F0F] mb-2 font-bold uppercase">
-                    {exp.period}
-                  </span>
-                  
-                  <h3 className="text-lg font-bold text-[#0B1D17] group-hover:text-[#6B0F0F] transition-colors">{exp.role}</h3>
-                  <h4 className="text-sm text-[#66756F] font-semibold mt-0.5">{exp.company}</h4>
+                  <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-3 mb-1">
+                    <div>
+                      <h3 className="text-lg font-bold text-[#0B1D17] group-hover:text-[#6B0F0F] transition-colors pr-2">{exp.role}</h3>
+                      <h4 className="text-sm text-[#66756F] font-semibold mt-0.5">{exp.company}</h4>
+                    </div>
+                    <span className="inline-flex shrink-0 bg-white border border-[#E8E2D5] px-3.5 py-1 rounded-full text-[10px] md:text-xs font-mono text-[#6B0F0F] font-bold uppercase shadow-sm whitespace-nowrap self-start">
+                      {exp.period}
+                    </span>
+                  </div>
                   
                   <p className="text-xs text-[#66756F] mt-3 leading-relaxed font-sans line-clamp-2">
                     {exp.description}

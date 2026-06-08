@@ -230,12 +230,14 @@ export async function upsertPublicationItem(data: {
   type: string;
   details: string;
   highlights: string;
+  link: string;
 }) {
   await requireAdmin();
-  if (data.id) {
-    await prisma.publicationItem.update({ where: { id: data.id }, data });
+  const { id, ...payload } = data;
+  if (id) {
+    await prisma.publicationItem.update({ where: { id }, data: payload });
   } else {
-    await prisma.publicationItem.create({ data });
+    await prisma.publicationItem.create({ data: payload });
   }
   revalidatePath("/");
   revalidatePath("/admin");

@@ -37,7 +37,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   };
 
   const pathname = usePathname();
-  const isAdminPath = pathname?.startsWith("/admin");
+  const isHiddenPath = pathname?.startsWith("/admin") || pathname?.startsWith("/generate-cv") || pathname?.startsWith("/generate-portfolio");
 
   if (!mounted) {
     // Return placeholder markup during SSR hydration to avoid mismatch
@@ -52,8 +52,8 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     <LanguageContext.Provider value={{ language, setLanguage, t }}>
       {children}
 
-      {/* Floating Toggle Button in the bottom-right corner - Hidden on Admin */}
-      {!isAdminPath && (
+      {/* Floating Toggle Button in the bottom-right corner - Hidden on Admin and Print pages */}
+      {!isHiddenPath && (
         <div className="fixed bottom-6 right-6 z-[99] pointer-events-auto">
           <button
             onClick={() => setLanguage(language === "id" ? "en" : "id")}

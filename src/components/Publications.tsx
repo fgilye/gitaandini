@@ -6,11 +6,30 @@ import { FileText, X, BookOpen, Calendar, CheckSquare } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import FloatingElements from "@/components/FloatingElements";
 
-export default function Publications() {
+export default function Publications({ items }: { items?: any[] }) {
   const { t } = useLanguage();
   const [activePub, setActivePub] = useState<any | null>(null);
 
-  const publications = [
+  const getBilingual = (str: string) => {
+    if (!str) return "";
+    const parts = str.split(" | ");
+    return parts.length > 1 ? t(parts[0], parts[1]) : str;
+  };
+
+  const dbPublications = (items || []).map(item => ({
+    title: getBilingual(item.title),
+    journal: getBilingual(item.journal),
+    year: getBilingual(item.year),
+    type: getBilingual(item.type),
+    details: getBilingual(item.details),
+    highlights: (() => {
+      try { return JSON.parse(item.highlights).map((h: string) => getBilingual(h)); }
+      catch { return []; }
+    })(),
+    link: item.link || ""
+  }));
+
+  const defaultPublications = [
     {
       title: t(
         "PERBANDINGAN STATUS GIZI BAYI YANG MENDAPATKAN ASI EKSKLUSIF DAN ASI PARSIAL: SYSTEMATIC REVIEW",
@@ -69,6 +88,8 @@ export default function Publications() {
       ]
     },
   ];
+
+  const publications = dbPublications.length > 0 ? dbPublications : defaultPublications;
 
   return (
     <section id="publications" className="py-20 bg-[#FAF6EE] text-[#0B1D17] relative overflow-hidden font-sans border-b border-[#E8E2D5]">
@@ -210,7 +231,17 @@ export default function Publications() {
                   </div>
                 </div>
 
-                <div className="mt-8 flex justify-end">
+                <div className="mt-8 flex justify-end gap-3">
+                  {activePub.link && (
+                    <a
+                      href={activePub.link.startsWith('http') ? activePub.link : `https://${activePub.link}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-5 py-2.5 bg-white border border-[#6B0F0F] text-[#6B0F0F] hover:bg-[#FAF6EE] text-xs font-bold font-mono tracking-wider uppercase rounded-2xl cursor-pointer"
+                    >
+                      {t("Kunjungi Publikasi", "Visit Publication")}
+                    </a>
+                  )}
                   <button
                     onClick={() => setActivePub(null)}
                     className="px-5 py-2.5 bg-[#6B0F0F] hover:bg-[#540c0c] text-white text-xs font-bold font-mono tracking-wider uppercase rounded-2xl cursor-pointer"
