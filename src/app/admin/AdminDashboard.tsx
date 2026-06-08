@@ -69,6 +69,7 @@ interface PublicationItem {
   type: string;
   details: string;
   highlights: string;
+  link?: string;
 }
 
 interface MessageItem {
