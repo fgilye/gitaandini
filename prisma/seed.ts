@@ -33,15 +33,7 @@ async function main() {
         category: "Auditing",
         imageName: "iso45001",
       },
-      {
-        title: "Ahli K3 Umum (General OHS Specialist)",
-        issuer: "Kementerian Ketenagakerjaan Republik Indonesia (Kemnaker RI)",
-        issueDate: "September 2022",
-        expiryDate: "September 2025",
-        credentialId: "K3U-90928-KM",
-        category: "National Regulation",
-        imageName: "k3umum",
-      },
+
       {
         title: "Basic First Aid & CPR Certification",
         issuer: "Palang Merah Indonesia (Red Cross)",

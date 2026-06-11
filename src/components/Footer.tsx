@@ -48,7 +48,7 @@ export default function Footer() {
         </div>
 
         <div className="text-right text-[9px] font-mono text-[#A4B2AC]/60">
-          {t("TERVERIFIKASI", "VERIFIED")} &bull; ISO 45001 &bull; {t("K3 UMUM KEMNAKER", "KEMNAKER GENERAL OHS")}
+          {t("TERVERIFIKASI", "VERIFIED")} &bull; ISO 45001
         </div>
       </div>
     </footer>
