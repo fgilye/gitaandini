@@ -1,4 +1,4 @@
-import { getExperienceItems, getConfig, getPublicationItems, getEducationItems } from "./admin-actions";
+import { getExperienceItems, getConfig, getPublicationItems, getEducationItems, getOrganizationItems } from "./admin-actions";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
@@ -17,6 +17,7 @@ export default async function Home() {
   const experiences = await getExperienceItems();
   const publications = await getPublicationItems();
   const educationItems = await getEducationItems();
+  const organizations = await getOrganizationItems();
   const configRaw = await getConfig();
   const config = Object.fromEntries(configRaw.map(c => [c.key, c.value]));
 
@@ -31,7 +32,7 @@ export default async function Home() {
         <Timeline items={experiences} />
         <Skills />
         <Projects />
-        <Organizations />
+        <Organizations items={organizations} />
         <Publications items={publications} />
         <ContactForm 
           contactEmail={config.contact_email || "gita.andini@email.com"}

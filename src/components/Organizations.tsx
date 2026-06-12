@@ -6,11 +6,37 @@ import { Users, Shield, Award, Heart, X, Calendar, CheckSquare } from "lucide-re
 import { useLanguage } from "@/context/LanguageContext";
 import FloatingElements from "@/components/FloatingElements";
 
-export default function Organizations() {
+export default function Organizations({ items }: { items?: any[] }) {
   const [activeOrg, setActiveOrg] = useState<any | null>(null);
   const { t } = useLanguage();
 
-  const orgs = [
+  const parseJson = (str: string, fallback: any) => {
+    if (!str) return fallback;
+    try { return JSON.parse(str); } catch { return fallback; }
+  };
+
+  const getBilingual = (str: string) => {
+    if (!str) return "";
+    const parts = str.split(" | ");
+    return parts.length > 1 ? t(parts[0].trim(), parts[1].trim()) : str;
+  };
+
+  const dbOrgs = (items || []).map((item: any) => ({
+    title: getBilingual(item.title),
+    role: getBilingual(item.role),
+    period: getBilingual(item.period),
+    desc: getBilingual(item.description),
+    details: getBilingual(item.details),
+    highlights: parseJson(item.highlights, []).map((h: string) => getBilingual(h)),
+    icon: Shield,
+    gallery: parseJson(item.gallery, []).map((g: any) => ({
+      img: g.img,
+      title: getBilingual(g.title || ""),
+      desc: getBilingual(g.desc || "")
+    }))
+  }));
+
+  const defaultOrgs = [
     {
       title: "Occupational Health, Safety, and Environment Forum (OHSEF) UPNVJ",
       role: t("Staf Research & Development (RnD)", "Staff Research & Development (RnD)"),
@@ -115,6 +141,8 @@ export default function Organizations() {
       gallery: []
     },
   ];
+
+  const orgs = dbOrgs.length > 0 ? dbOrgs : defaultOrgs;
 
   return (
     <section id="organizations" className="py-20 bg-[#FDFBF7] text-[#0B1D17] relative overflow-hidden font-sans border-b border-[#E8E2D5]">
