@@ -1,4 +1,4 @@
-import { getExperienceItems, getConfig, getPublicationItems, getEducationItems, getOrganizationItems } from "./admin-actions";
+import { getExperienceItems, getConfig, getPublicationItems, getEducationItems, getOrganizationItems, getProjectItems } from "./admin-actions";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
@@ -18,6 +18,7 @@ export default async function Home() {
   const publications = await getPublicationItems();
   const educationItems = await getEducationItems();
   const organizations = await getOrganizationItems();
+  const projects = await getProjectItems();
   const configRaw = await getConfig();
   const config = Object.fromEntries(configRaw.map(c => [c.key, c.value]));
 
@@ -31,7 +32,7 @@ export default async function Home() {
         <Education items={educationItems} />
         <Timeline items={experiences} />
         <Skills />
-        <Projects />
+        <Projects items={projects} />
         <Organizations items={organizations} />
         <Publications items={publications} />
         <ContactForm 

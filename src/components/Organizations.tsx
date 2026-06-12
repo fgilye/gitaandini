@@ -248,7 +248,7 @@ export default function Organizations({ items }: { items?: any[] }) {
                     {activeOrg.title}
                   </h3>
                   <p className="text-sm font-sans text-[#FAF6EE]/80 mt-2 font-semibold uppercase tracking-wider">
-                    {t("Peran: ", "Role: ")}{activeOrg.role} &bull; {activeOrg.period}
+                    {activeOrg.role ? `${t("Peran: ", "Role: ")}${activeOrg.role} • ` : ""}{activeOrg.period}
                   </p>
                 </div>
 

@@ -6,11 +6,37 @@ import { useLanguage } from "@/context/LanguageContext";
 import { User, Calendar, Info, X } from "lucide-react";
 import FloatingElements from "@/components/FloatingElements";
 
-export default function Projects() {
+export default function Projects({ items }: { items?: any[] }) {
   const [activeProj, setActiveProj] = useState<any | null>(null);
   const { t } = useLanguage();
 
-  const projects = [
+  const parseJson = (str: string, fallback: any) => {
+    if (!str) return fallback;
+    try { return JSON.parse(str); } catch { return fallback; }
+  };
+
+  const getBilingual = (str: string) => {
+    if (!str) return "";
+    const parts = str.split(" | ");
+    return parts.length > 1 ? t(parts[0].trim(), parts[1].trim()) : str;
+  };
+
+  const dbProjects = (items || []).map((item: any) => ({
+    id: item.id,
+    title: getBilingual(item.title),
+    category: getBilingual(item.category),
+    period: getBilingual(item.period),
+    role: getBilingual(item.role),
+    description: getBilingual(item.description),
+    highlights: parseJson(item.highlights, []).map((h: string) => getBilingual(h)),
+    gallery: parseJson(item.gallery, []).map((g: any) => ({
+      img: g.img,
+      title: getBilingual(g.title || ""),
+      desc: getBilingual(g.desc || "")
+    }))
+  }));
+
+  const defaultProjects = [
     {
       id: 1,
       title: t("Pengembangan Digital Dashboard HSSE", "HSSE Digital Dashboard Development"),
@@ -138,6 +164,8 @@ export default function Projects() {
     },
   ];
 
+  const projects = dbProjects.length > 0 ? dbProjects : defaultProjects;
+
   return (
     <section id="projects" className="py-20 bg-[#FDFBF7] text-[#0B1D17] relative overflow-hidden font-sans border-b border-[#E8E2D5]">
       <FloatingElements count={5} color="#6B0F0F" />
@@ -176,9 +204,11 @@ export default function Projects() {
                 <h3 className="text-sm font-bold text-[#0B1D17] group-hover:text-[#6B0F0F] transition-colors line-clamp-2 leading-snug">
                   {proj.title}
                 </h3>
-                <p className="text-xs text-[#66756F] mt-2.5 font-mono">
-                  {t("Peran: ", "Role: ")}<span className="text-[#0B1D17] font-sans font-semibold">{proj.role}</span>
-                </p>
+                {proj.role && (
+                  <p className="text-xs text-[#66756F] mt-2.5 font-mono">
+                    {t("Peran: ", "Role: ")}<span className="text-[#0B1D17] font-sans font-semibold">{proj.role}</span>
+                  </p>
+                )}
               </div>
 
               <div className="mt-6 pt-4 border-t border-[#E8E2D5] flex items-center justify-between text-xs text-[#66756F] font-mono">
@@ -228,7 +258,7 @@ export default function Projects() {
                     {activeProj.title}
                   </h3>
                   <p className="text-sm font-sans text-[#FAF6EE]/80 mt-2 font-semibold uppercase tracking-wider">
-                    {t("Peran: ", "Role: ")}{activeProj.role} &bull; {activeProj.period}
+                    {activeProj.role ? `${t("Peran: ", "Role: ")}${activeProj.role} • ` : ""}{activeProj.period}
                   </p>
                 </div>
 
