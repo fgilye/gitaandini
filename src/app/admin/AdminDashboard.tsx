@@ -245,6 +245,17 @@ function FileUploadField({
     const file = e.target.files?.[0];
     if (!file) return;
 
+    if (file.size > 10 * 1024 * 1024) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Ukuran File Terlalu Besar',
+        text: 'File yang diunggah tidak boleh lebih dari 10 MB.',
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
+
     setIsUploading(true);
     try {
       const fd = new FormData();
@@ -579,6 +590,17 @@ function GalleryEditor({ defaultValue, name = "gallery", uploadAction }: { defau
     const file = e.target.files?.[0];
     if (!file || !uploadAction) return;
     
+    if (file.size > 10 * 1024 * 1024) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Ukuran Gambar Terlalu Besar',
+        text: 'Gambar yang diunggah tidak boleh lebih dari 10 MB.',
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
+
     // Tampilkan preview lokal instan
     const objectUrl = URL.createObjectURL(file);
     updateItem(idx, "img", objectUrl);
@@ -1058,6 +1080,49 @@ export default function AdminDashboard({
                     cv_download_url: "URL Download CV & Portofolio"
                   };
 
+                  // 1. Prioritize predefined labels to ensure they are always bilingual
+                  for (const [key, label] of Object.entries(labels)) {
+                    if (key === "cv_download_url") {
+                      handledKeys.add(key);
+                      elements.push(
+                        <FileUploadField 
+                          key={key} 
+                          label={label} 
+                          name={key} 
+                          defaultValue={config[key] || ""} 
+                          uploadAction={actions.uploadImageAction} 
+                        />
+                      );
+                      continue;
+                    }
+
+                    const keyId = key + "_id";
+                    const keyEn = key + "_en";
+                    
+                    handledKeys.add(key);
+                    handledKeys.add(keyId);
+                    handledKeys.add(keyEn);
+                    handledKeys.add(key + "_ID");
+                    handledKeys.add(key + "_EN");
+
+                    const valId = config[keyId] || config[key] || "";
+                    const valEn = config[keyEn] || "";
+                    const isMultiline = valId.length > 60 || valEn.length > 60 || key.includes("desc");
+
+                    elements.push(
+                      <SplitConfigBilingualField 
+                        key={key} 
+                        label={label} 
+                        nameId={keyId} 
+                        nameEn={keyEn} 
+                        valId={valId} 
+                        valEn={valEn} 
+                        multiline={isMultiline} 
+                      />
+                    );
+                  }
+
+                  // 2. Render any remaining unknown/dynamic config keys
                   for (const [key, value] of Object.entries(config)) {
                     if (handledKeys.has(key)) continue;
 
@@ -1074,7 +1139,7 @@ export default function AdminDashboard({
                     if (baseKey && config[enKey] !== undefined) {
                       handledKeys.add(key);
                       handledKeys.add(enKey);
-                      const label = labels[baseKey.toLowerCase()] || baseKey.replace(/_/g, " ");
+                      const label = baseKey.replace(/_/g, " ");
                       const isMultiline = value.length > 60 || config[enKey].length > 60;
                       elements.push(
                         <SplitConfigBilingualField 
@@ -1090,48 +1155,12 @@ export default function AdminDashboard({
                       continue;
                     }
 
-                    if (key === "cv_download_url") {
-                      handledKeys.add(key);
-                      elements.push(
-                        <FileUploadField 
-                          key={key} 
-                          label={labels[key]} 
-                          name={key} 
-                          defaultValue={value} 
-                          uploadAction={actions.uploadImageAction} 
-                        />
-                      );
-                      continue;
-                    }
-
                     // Jika tidak berpasangan
                     handledKeys.add(key);
-                    const label = labels[key.toLowerCase()] || key.replace(/_/g, " ");
+                    const label = key.replace(/_/g, " ");
                     const isMultiline = value.length > 60;
                     elements.push(
                       <Field key={key} label={label} name={key} defaultValue={value} multiline={isMultiline} />
-                    );
-                  }
-
-                  // Render input for keys defined in labels but not yet in config
-                  for (const [key, label] of Object.entries(labels)) {
-                    if (handledKeys.has(key) || handledKeys.has(key + "_id") || handledKeys.has(key + "_ID")) continue;
-                    
-                    if (key === "cv_download_url") {
-                      elements.push(
-                        <FileUploadField 
-                          key={key} 
-                          label={label} 
-                          name={key} 
-                          defaultValue="" 
-                          uploadAction={actions.uploadImageAction} 
-                        />
-                      );
-                      continue;
-                    }
-
-                    elements.push(
-                      <Field key={key} label={label} name={key} defaultValue="" multiline={false} />
                     );
                   }
 

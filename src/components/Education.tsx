@@ -7,11 +7,37 @@ import Image from "next/image";
 import { GraduationCap, Calendar, Award, X, BookOpen } from "lucide-react";
 import FloatingElements from "@/components/FloatingElements";
 
-export default function Education() {
+export default function Education({ items = [] }: { items?: any[] }) {
   const [activeEdu, setActiveEdu] = useState<any | null>(null);
   const { t } = useLanguage();
 
-  const educationList = [
+  const getBilingual = (str: string) => {
+    if (!str) return "";
+    const parts = str.split(" | ");
+    return parts.length > 1 ? t(parts[0].trim(), parts[1].trim()) : str;
+  };
+
+  const dbEducationList = items.map((item: any) => ({
+    degree: getBilingual(item.degree),
+    major: getBilingual(item.major),
+    institution: getBilingual(item.school),
+    period: getBilingual(item.period),
+    gpa: getBilingual(item.gpa),
+    details: getBilingual(item.description),
+    highlights: (() => {
+      try {
+        const parsed = JSON.parse(item.highlights);
+        if (Array.isArray(parsed)) {
+          return parsed.map((h: string) => getBilingual(h));
+        }
+        return [];
+      } catch (e) {
+        return [];
+      }
+    })()
+  }));
+
+  const educationList = items.length > 0 ? dbEducationList : [
     {
       degree: t("S1 Kesehatan Masyarakat (S.KL.)", "Bachelor of Public Health (S.KL.)"),
       major: t("Peminatan Keselamatan dan Kesehatan Kerja (K3)", "Specializing in Occupational Health and Safety (OHS)"),

@@ -27,16 +27,6 @@ export default function Projects() {
           img: "/extracted/page_11_img_2.jpeg",
           title: t("METRIK DASHBOARD", "DASHBOARD METRICS"),
           desc: t("Sistem monitoring metrik insiden K3 secara digital.", "Digital monitoring system for OHS incident metrics.")
-        },
-        {
-          img: "/extracted/page_11_img_3.jpeg",
-          title: t("PELAPORAN DIGITAL", "DIGITAL REPORTING"),
-          desc: t("Formulir pelaporan bahaya real-time terintegrasi.", "Integrated real-time hazard reporting form.")
-        },
-        {
-          img: "/extracted/page_11_img_4.jpeg",
-          title: t("ARSIP DOKUMEN", "DOCUMENT ARCHIVE"),
-          desc: t("Pusat arsip digital perizinan kerja & file kepatuhan SHE.", "Digital archive center for work permits & SHE compliance files.")
         }
       ]
     },
@@ -53,14 +43,10 @@ export default function Projects() {
       highlights: [t("Pelatihan Keselamatan", "Safety Training"), t("Pencegahan PAK", "Occupational Disease Prevention"), t("Higiene Industri", "Industrial Hygiene")],
       gallery: [
         {
-          img: "/extracted/page_13_img_2.jpeg",
-          title: t("EDUKASI RISIKO KEBISiNGAN", "NOISE RISK EDUCATION"),
-          desc: t("Sosialisasi potensi penurunan pendengaran akibat kebisingan industri las.", "Socialization of potential hearing loss due to welding industry noise.")
+          img: "/extracted/page_13_img_2.jpeg"
         },
         {
-          img: "/extracted/page_13_img_3.jpeg",
-          title: t("PEMBAGIAN APD KESELAMATAN", "SAFETY PPE DISTRIBUTION"),
-          desc: t("Pembagian alat pelindung telinga dan edukasi cara pemakaian yang benar.", "Distribution of hearing protection and education on correct usage.")
+          img: "/extracted/page_13_img_3.jpeg"
         }
       ]
     },
@@ -77,14 +63,10 @@ export default function Projects() {
       highlights: ["Petrochemical Safety", "Hazard Identification", "Emergency Response"],
       gallery: [
         {
-          img: "/extracted/page_14_img_2.jpeg",
-          title: t("MANAJEMEN KESELAMATAN PROSES", "PROCESS SAFETY MANAGEMENT"),
-          desc: t("Observasi panel kontrol keselamatan dan regulasi tanggap darurat kilang.", "Observation of safety control panels and refinery emergency response regulations.")
+          img: "/extracted/page_14_img_2.jpeg"
         },
         {
-          img: "/extracted/page_14_img_3.jpeg",
-          title: t("KESELAMATAN KEBAKARAN & TUR KILANG", "FIRE SAFETY & REFINERY TOUR"),
-          desc: t("Kunjungan lapangan dan inspeksi sistem proteksi kebakaran terpadu.", "Field visit and inspection of the integrated fire protection system.")
+          img: "/extracted/page_14_img_3.jpeg"
         }
       ]
     },
@@ -101,14 +83,10 @@ export default function Projects() {
       highlights: ["Manufacturing Risk", "Machine Guarding", "Ergonomics Analysis"],
       gallery: [
         {
-          img: "/extracted/page_15_img_2.jpeg",
-          title: t("INSPEKSI PELINDUNG MESIN", "MACHINE GUARDING INSPECTION"),
-          desc: t("Analisis pelindung mesin produksi untuk mencegah kecelakaan kerja.", "Analysis of production machine guarding to prevent work accidents.")
+          img: "/extracted/page_15_img_2.jpeg"
         },
         {
-          img: "/extracted/page_15_img_3.jpeg",
-          title: t("KESELAMATAN BAHAYA KIMIA", "CHEMICAL HAZARD SAFETY"),
-          desc: t("Pengamatan penanganan bahan kimia pewarna dan APD yang sesuai.", "Observation of dye chemical handling and appropriate PPE.")
+          img: "/extracted/page_15_img_3.jpeg"
         }
       ]
     },
@@ -125,19 +103,13 @@ export default function Projects() {
       highlights: [t("700+ Peserta", "700+ Participants"), "Liaison Officer", "Event Management"],
       gallery: [
         {
-          img: "/extracted/page_16_img_2.jpeg",
-          title: t("MANAJEMEN PANGGUNG SEMINAR", "SEMINAR STAGE MANAGEMENT"),
-          desc: t("Koordinasi teknis acara dan kesiapan panggung utama seminar.", "Technical coordination of the event and main stage readiness for the seminar.")
+          img: "/extracted/page_16_img_2.jpeg"
         },
         {
-          img: "/extracted/page_16_img_3.jpeg",
-          title: t("KOORDINASI LIAISON OFFICER", "LIAISON OFFICER COORDINATION"),
-          desc: t("Penyambutan dan pendampingan pembicara kementerian dan praktisi K3.", "Welcoming and assisting ministry speakers and OHS practitioners.")
+          img: "/extracted/page_16_img_3.jpeg"
         },
         {
-          img: "/extracted/page_16_img_4.jpeg",
-          title: t("KETERLIBATAN PESERTA", "PARTICIPANTS ENGAGEMENT"),
-          desc: t("Mengelola registrasi dan kelancaran interaksi peserta nasional.", "Managing registration and the smooth interaction of national participants.")
+          img: "/extracted/page_16_img_4.jpeg"
         }
       ]
     },
@@ -154,19 +126,13 @@ export default function Projects() {
       highlights: ["Lockout/Tagout (LOTO)", "Safety Campaign", "Leadership"],
       gallery: [
         {
-          img: "/extracted/page_17_img_2.jpeg",
-          title: t("KREATIF KAMPANYE LOTO", "LOTO CAMPAIGN CREATIVE"),
-          desc: t("Penyusunan materi edukasi visual lockout-tagout energi berbahaya.", "Preparation of visual educational materials for lockout-tagout of hazardous energy.")
+          img: "/extracted/page_17_img_2.jpeg"
         },
         {
-          img: "/extracted/page_17_img_3.jpeg",
-          title: t("ARAHAN SHARING SESSION", "SHARING SESSION DIRECTION"),
-          desc: t("Pengarahan pembicara dan manajemen waktu presentasi materi LOTO.", "Speakers briefing and presentation time management for LOTO materials.")
+          img: "/extracted/page_17_img_3.jpeg"
         },
         {
-          img: "/extracted/page_17_img_4.jpeg",
-          title: t("DISKUSI AUDIENS", "AUDIENCE DISCUSSIONS"),
-          desc: t("Fasilitasi sesi tanya jawab mengenai praktek isolasi energi di lapangan.", "Facilitating Q&A sessions on energy isolation practices in the field.")
+          img: "/extracted/page_17_img_4.jpeg"
         }
       ]
     },
@@ -289,14 +255,20 @@ export default function Projects() {
                               className="object-cover w-full h-full transform transition-transform duration-500 group-hover:scale-105"
                             />
                           </div>
-                          <div className="mt-4 space-y-1.5">
-                            <h5 className="text-[11px] font-mono font-bold text-[#FAF6EE] uppercase tracking-wider">
-                              {item.title}
-                            </h5>
-                            <p className="text-[10.5px] text-[#FAF6EE]/75 leading-relaxed font-sans">
-                              {item.desc}
-                            </p>
-                          </div>
+                          {(item.title || item.desc) && (
+                            <div className="mt-4 space-y-1.5">
+                              {item.title && (
+                                <h5 className="text-[11px] font-mono font-bold text-[#FAF6EE] uppercase tracking-wider">
+                                  {item.title}
+                                </h5>
+                              )}
+                              {item.desc && (
+                                <p className="text-[10.5px] text-[#FAF6EE]/75 leading-relaxed font-sans">
+                                  {item.desc}
+                                </p>
+                              )}
+                            </div>
+                          )}
                         </div>
                       ))}
                     </div>

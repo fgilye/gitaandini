@@ -56,7 +56,7 @@ export default function Hero({ config }: { config: any }) {
             transition={{ type: "spring", stiffness: 80 }}
             className="self-start bg-[#FAF6EE] text-[#6B0F0F] font-sans font-extrabold uppercase tracking-widest text-xs md:text-sm px-4 py-2 border border-[#6B0F0F]/20 shadow-md mb-2 rounded-full"
           >
-            {t(config.hero_tag_id || "ANTUSIAS K3", config.hero_tag_en || "HSE ENTHUSIAST")}
+            {t(config.hero_tag_id || "HSE ENTHUSIAST", config.hero_tag_en || "HSE ENTHUSIAST")}
           </motion.div>
 
           {/* Large Heading: PORTEFOLIO using Playfair Display */}

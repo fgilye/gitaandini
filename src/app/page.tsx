@@ -1,4 +1,4 @@
-import { getExperienceItems, getConfig, getPublicationItems } from "./admin-actions";
+import { getExperienceItems, getConfig, getPublicationItems, getEducationItems } from "./admin-actions";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
@@ -16,6 +16,7 @@ export const revalidate = 0; // Live database updates
 export default async function Home() {
   const experiences = await getExperienceItems();
   const publications = await getPublicationItems();
+  const educationItems = await getEducationItems();
   const configRaw = await getConfig();
   const config = Object.fromEntries(configRaw.map(c => [c.key, c.value]));
 
@@ -26,7 +27,7 @@ export default async function Home() {
       <main className="flex-grow pt-6">
         <Hero config={config} />
         <About config={config} />
-        <Education />
+        <Education items={educationItems} />
         <Timeline items={experiences} />
         <Skills />
         <Projects />
@@ -42,7 +43,11 @@ export default async function Home() {
         />
       </main>
 
-      <Footer />
+      <Footer 
+        contactEmail={config.contact_email || "gita.andini@email.com"}
+        contactLinkedin={config.contact_linkedin || "https://linkedin.com"}
+        contactInstagram={config.contact_instagram || "https://instagram.com"}
+      />
     </div>
   );
 }

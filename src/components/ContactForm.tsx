@@ -81,8 +81,8 @@ export default function ContactForm({
           </h2>
           <p className="mt-4 text-[#66756F] text-sm max-w-2xl mx-auto">
             {t(
-              "Apakah Anda memerlukan audit K3, pembuatan dokumen HIRADC/JSA, pelatihan safety, atau konsultasi kepatuhan regulasi lingkungan? Kirimkan pesan di bawah ini.",
-              "Do you need an OHS audit, HIRADC/JSA document preparation, safety training, or environmental regulatory compliance consultation? Send a message below."
+              "Saya selalu terbuka untuk diskusi profesional, peluang kolaborasi, maupun pertanyaan seputar keahlian saya. Silakan tinggalkan pesan Anda melalui formulir di bawah ini.",
+              "I am always open to professional discussions, collaboration opportunities, or inquiries related to my expertise. Please leave your message using the form below."
             )}
           </p>
         </div>
@@ -133,7 +133,7 @@ export default function ContactForm({
                   >
                     <div className="bg-white border border-[#6B0F0F]/15 w-9 h-9 rounded-xl flex items-center justify-center text-[#6B0F0F] shrink-0 group-hover:bg-[#6B0F0F] group-hover:text-white transition-colors">
                       <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
                       </svg>
                     </div>
                     <div className="overflow-hidden">
@@ -172,7 +172,7 @@ export default function ContactForm({
                     </div>
                     <div className="overflow-hidden">
                       <div className="text-[9px] font-mono text-[#66756F] uppercase tracking-wider">Portfolio</div>
-                      <div className="text-xs text-[#0B1D17] font-bold truncate">{t("Situs Utama", "Main Website")}</div>
+                      <div className="text-xs text-[#0B1D17] font-bold truncate">{t("Portofolio Web", "Web Portfolio")}</div>
                     </div>
                   </a>
                 </div>
@@ -234,21 +234,21 @@ export default function ContactForm({
                     required
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
-                    placeholder={t("Contoh: Konsultasi Pembuatan HIRADC Proyek", "e.g., Project HIRADC Preparation Consultation")}
+                    placeholder={t("Contoh: Peluang Kolaborasi atau Pertanyaan Profesional", "e.g., Collaboration Opportunity or Professional Inquiry")}
                     className="w-full bg-[#FAF6EE] border border-[#E8E2D5] focus:border-[#6B0F0F] text-[#0B1D17] rounded-2xl px-4 py-3 outline-none transition-all text-xs font-mono"
                   />
                 </div>
 
                 <div>
                   <label className="block text-[10px] font-mono text-[#66756F] uppercase tracking-wider mb-2">
-                    {t("Pesan / Kebutuhan K3", "Message / OHS Requirements")}
+                    {t("Pesan", "Message")}
                   </label>
                   <textarea
                     required
                     rows={5}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    placeholder={t("Jelaskan kebutuhan konsultasi atau inspeksi K3 perusahaan Anda...", "Describe your company's OHS consultation or inspection needs...")}
+                    placeholder={t("Tuliskan pesan, pertanyaan, atau detail kolaborasi yang ingin Anda sampaikan...", "Please provide the details of your message, question, or collaboration proposal...")}
                     className="w-full bg-[#FAF6EE] border border-[#E8E2D5] focus:border-[#6B0F0F] text-[#0B1D17] rounded-2xl px-4 py-3 outline-none transition-all text-xs resize-none"
                   />
                 </div>
@@ -262,7 +262,7 @@ export default function ContactForm({
                     t("MENGIRIMKAN...", "SENDING...")
                   ) : (
                     <>
-                      <Send size={14} /> {t("KIRIM PESAN K3", "SEND OHS MESSAGE")}
+                      <Send size={14} /> {t("KIRIM PESAN", "SEND MESSAGE")}
                     </>
                   )}
                 </button>

@@ -23,10 +23,10 @@ export default function Timeline({ items }: { items?: any[] }) {
 
   const experiences = (items || []).map(item => ({
     ...item,
-    role: item.role,
-    company: item.company,
-    period: item.period,
-    description: item.description,
+    role: getBilingual(item.role),
+    company: getBilingual(item.company),
+    period: getBilingual(item.period),
+    description: getBilingual(item.description),
     highlights: parseJson(item.highlights, []).map((h: string) => getBilingual(h)),
     gallery: parseJson(item.gallery, []).map((g: any) => ({
       img: g.img,
@@ -99,8 +99,8 @@ export default function Timeline({ items }: { items?: any[] }) {
                   </p>
 
                   <div className="mt-4 pt-3 border-t border-[#E8E2D5] flex items-center justify-between text-[10px] font-mono text-[#6B0F0F] font-bold">
-                    <span>Klik untuk melihat foto & detail dokumentasi lapangan</span>
-                    <span className="group-hover:underline">Lihat detail &rarr;</span>
+                    <span>{t("Klik untuk melihat foto & detail dokumentasi lapangan", "Click to view photos & field documentation details")}</span>
+                    <span className="group-hover:underline">{t("Lihat detail", "View details")} &rarr;</span>
                   </div>
                 </motion.div>
               </div>
