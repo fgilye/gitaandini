@@ -6,7 +6,7 @@ import {
   ShieldCheck, LogOut, Database, BookOpen, Briefcase, Star,
   FolderOpen, Users, FileText, MessageSquare, ChevronDown,
   ChevronUp, Plus, Trash2, Save, AlertTriangle, CheckCircle,
-  Eye, RefreshCw, Settings, X, Printer
+  Eye, RefreshCw, Settings, X, Printer, ArrowUp, ArrowDown, Award
 } from "lucide-react";
 import Swal from "sweetalert2";
 
@@ -21,6 +21,7 @@ interface EducationItem {
   gpa: string;
   description: string;
   highlights: string;
+  order?: number;
 }
 
 interface ExperienceItem {
@@ -31,12 +32,14 @@ interface ExperienceItem {
   description: string;
   highlights: string;
   gallery: string;
+  order?: number;
 }
 
 interface SkillItem {
   id: number;
   category: string;
   items: string;
+  order?: number;
 }
 
 interface ProjectItem {
@@ -48,6 +51,7 @@ interface ProjectItem {
   description: string;
   highlights: string;
   gallery: string;
+  order?: number;
 }
 
 interface OrganizationItem {
@@ -59,6 +63,7 @@ interface OrganizationItem {
   details: string;
   highlights: string;
   gallery: string;
+  order?: number;
 }
 
 interface PublicationItem {
@@ -70,6 +75,19 @@ interface PublicationItem {
   details: string;
   highlights: string;
   link?: string;
+  order?: number;
+}
+
+interface TrainingItem {
+  id: number;
+  title: string;
+  organizer: string;
+  year: string;
+  credentialId?: string;
+  description: string;
+  highlights: string;
+  link?: string;
+  order?: number;
 }
 
 interface MessageItem {
@@ -89,6 +107,7 @@ interface Props {
   projects: ProjectItem[];
   organizations: OrganizationItem[];
   publications: PublicationItem[];
+  trainings?: TrainingItem[];
   messages: MessageItem[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   actions: Record<string, any>;
@@ -414,6 +433,40 @@ function PeriodPickerField({ name, defaultValue = "" }: { name: string; defaultV
             <input type="number" value={endY} onChange={e => setEndY(e.target.value)} disabled={isPresent} className={selectBase + (isPresent ? " opacity-50 bg-gray-50" : "")} placeholder="Tahun" />
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function MonthYearPickerField({ name, defaultValue = "" }: { name: string; defaultValue?: string }) {
+  let initM = "Jan", initY = new Date().getFullYear().toString();
+  
+  if (defaultValue) {
+    const idPart = defaultValue.split(" | ")[0] || "";
+    const [m, y] = idPart.trim().split(" ");
+    if (m && ID_MONTHS.includes(m)) initM = m;
+    if (y) initY = y;
+  }
+
+  const [m, setM] = useState(initM);
+  const [y, setY] = useState(initY);
+
+  const mEN = EN_MONTHS[ID_MONTHS.indexOf(m)] || m;
+  const combined = `${m} ${y} | ${mEN} ${y}`;
+
+  const selectBase = "w-full px-3 py-2.5 rounded-xl border border-[#E8E2D5] bg-[#FDFBF7] text-[#0B1D17] text-sm focus:outline-none focus:ring-2 focus:ring-[#6B0F0F]/25 focus:border-[#6B0F0F] transition-all";
+
+  return (
+    <div className="space-y-1">
+      <label className="block text-[11px] font-mono uppercase tracking-wider text-[#66756F]">
+        Bulan & Tahun (Month & Year)
+      </label>
+      <input type="hidden" name={name} value={combined} />
+      <div className="flex gap-2">
+        <select value={m} onChange={e => setM(e.target.value)} className={selectBase}>
+          {ID_MONTHS.map(month => <option key={month} value={month}>{month}</option>)}
+        </select>
+        <input type="number" value={y} onChange={e => setY(e.target.value)} className={selectBase} placeholder="Tahun" />
       </div>
     </div>
   );
@@ -749,6 +802,7 @@ export default function AdminDashboard({
   projects,
   organizations,
   publications,
+  trainings = [],
   messages,
   actions,
 }: Props) {
@@ -793,6 +847,7 @@ export default function AdminDashboard({
     { id: "education", label: "Pendidikan", icon: BookOpen },
     { id: "experience", label: "Pengalaman", icon: Briefcase },
     { id: "skills", label: "Keahlian", icon: Star },
+    { id: "trainings", label: "Pelatihan K3", icon: Award },
     { id: "projects", label: "Proyek", icon: FolderOpen },
     { id: "organizations", label: "Organisasi", icon: Users },
     { id: "publications", label: "Publikasi", icon: FileText },
@@ -916,7 +971,7 @@ export default function AdminDashboard({
                   {/* Vertical decorative line for group */}
                   <div className="absolute left-6 top-2 bottom-2 w-px bg-[#E8E2D5] z-0 hidden md:block" />
                   
-                  {tabs.filter(t => ["education", "experience", "skills", "projects", "organizations", "publications"].includes(t.id)).map((tab, i) => {
+                  {tabs.filter(t => ["education", "experience", "skills", "trainings", "projects", "organizations", "publications"].includes(t.id)).map((tab, i) => {
                     const isActive = activeTab === tab.id;
                     return (
                       <motion.button
@@ -1022,11 +1077,12 @@ export default function AdminDashboard({
                 {[
                   { label: "Pendidikan", val: educations.length, icon: BookOpen },
                   { label: "Pengalaman", val: experiences.length, icon: Briefcase },
-                  { label: "Proyek", val: projects.length, icon: FolderOpen },
-                  { label: "Pesan", val: messages.length, icon: MessageSquare },
                   { label: "Keahlian", val: skills.length, icon: Star },
+                  { label: "Pelatihan K3", val: trainings.length, icon: Award },
+                  { label: "Proyek", val: projects.length, icon: FolderOpen },
                   { label: "Organisasi", val: organizations.length, icon: Users },
                   { label: "Publikasi", val: publications.length, icon: FileText },
+                  { label: "Pesan", val: messages.length, icon: MessageSquare },
                   { label: "Config Keys", val: Object.keys(config).length, icon: Database },
                 ].map(({ label, val, icon: Icon }) => (
                   <div key={label} className="bg-white rounded-2xl border border-[#E8E2D5] px-5 py-4">
@@ -1182,12 +1238,45 @@ export default function AdminDashboard({
           {activeTab === "education" && (
             <SectionCard title="Pendidikan" icon={BookOpen} count={educations.length}>
               <div className="mt-5 space-y-3">
-                {educations.map((edu) => (
+                {educations.map((edu, idx) => (
                   <div key={edu.id} className="border border-[#E8E2D5] rounded-2xl overflow-hidden">
                     <details>
                       <summary className="flex items-center justify-between px-4 py-3 bg-[#FDFBF7] cursor-pointer list-none select-none">
                         <span className="font-semibold text-sm text-[#0B1D17] truncate">{edu.school}</span>
-                        <div className="flex items-center gap-2 ml-2 flex-shrink-0">
+                        <div className="flex items-center gap-1.5 ml-2 flex-shrink-0">
+                          <button
+                            type="button"
+                            disabled={idx === 0 || isPending}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              const newOrder = [...educations];
+                              const temp = newOrder[idx];
+                              newOrder[idx] = newOrder[idx - 1];
+                              newOrder[idx - 1] = temp;
+                              act(() => actions.updateItemOrders("education", newOrder.map(item => item.id)), "Urutan diperbarui!");
+                            }}
+                            className="p-1.5 rounded-lg text-[#66756F] hover:bg-gray-200 transition-colors disabled:opacity-30 disabled:hover:bg-transparent"
+                            title="Naikkan Urutan"
+                          >
+                            <ArrowUp size={14} />
+                          </button>
+                          <button
+                            type="button"
+                            disabled={idx === educations.length - 1 || isPending}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              const newOrder = [...educations];
+                              const temp = newOrder[idx];
+                              newOrder[idx] = newOrder[idx + 1];
+                              newOrder[idx + 1] = temp;
+                              act(() => actions.updateItemOrders("education", newOrder.map(item => item.id)), "Urutan diperbarui!");
+                            }}
+                            className="p-1.5 rounded-lg text-[#66756F] hover:bg-gray-200 transition-colors disabled:opacity-30 disabled:hover:bg-transparent"
+                            title="Turunkan Urutan"
+                          >
+                            <ArrowDown size={14} />
+                          </button>
+                          <div className="w-px h-4 bg-[#E8E2D5] mx-1" />
                           <ChevronDown size={14} className="text-[#66756F]" />
                           <button
                             type="button"
@@ -1253,12 +1342,45 @@ export default function AdminDashboard({
           {activeTab === "experience" && (
             <SectionCard title="Pengalaman" icon={Briefcase} count={experiences.length}>
               <div className="mt-5 space-y-3">
-                {experiences.map((exp) => (
+                {experiences.map((exp, idx) => (
                   <div key={exp.id} className="border border-[#E8E2D5] rounded-2xl overflow-hidden">
                     <details>
                       <summary className="flex items-center justify-between px-4 py-3 bg-[#FDFBF7] cursor-pointer list-none select-none">
                         <span className="font-semibold text-sm text-[#0B1D17] truncate">{exp.role}</span>
-                        <div className="flex items-center gap-2 ml-2 flex-shrink-0">
+                        <div className="flex items-center gap-1.5 ml-2 flex-shrink-0">
+                          <button
+                            type="button"
+                            disabled={idx === 0 || isPending}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              const newOrder = [...experiences];
+                              const temp = newOrder[idx];
+                              newOrder[idx] = newOrder[idx - 1];
+                              newOrder[idx - 1] = temp;
+                              act(() => actions.updateItemOrders("experience", newOrder.map(item => item.id)), "Urutan diperbarui!");
+                            }}
+                            className="p-1.5 rounded-lg text-[#66756F] hover:bg-gray-200 transition-colors disabled:opacity-30 disabled:hover:bg-transparent"
+                            title="Naikkan Urutan"
+                          >
+                            <ArrowUp size={14} />
+                          </button>
+                          <button
+                            type="button"
+                            disabled={idx === experiences.length - 1 || isPending}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              const newOrder = [...experiences];
+                              const temp = newOrder[idx];
+                              newOrder[idx] = newOrder[idx + 1];
+                              newOrder[idx + 1] = temp;
+                              act(() => actions.updateItemOrders("experience", newOrder.map(item => item.id)), "Urutan diperbarui!");
+                            }}
+                            className="p-1.5 rounded-lg text-[#66756F] hover:bg-gray-200 transition-colors disabled:opacity-30 disabled:hover:bg-transparent"
+                            title="Turunkan Urutan"
+                          >
+                            <ArrowDown size={14} />
+                          </button>
+                          <div className="w-px h-4 bg-[#E8E2D5] mx-1" />
                           <ChevronDown size={14} className="text-[#66756F]" />
                           <button type="button" onClick={(e) => { e.preventDefault(); act(() => actions.deleteExperienceItem(exp.id), "Terhapus."); }} className="p-1.5 rounded-lg text-red-400 hover:bg-red-50 hover:text-red-600 transition-colors">
                             <Trash2 size={14} />
@@ -1292,12 +1414,45 @@ export default function AdminDashboard({
           {activeTab === "skills" && (
             <SectionCard title="Keahlian" icon={Star} count={skills.length}>
               <div className="mt-5 space-y-3">
-                {skills.map((sk) => (
+                {skills.map((sk, idx) => (
                   <div key={sk.id} className="border border-[#E8E2D5] rounded-2xl overflow-hidden">
                     <details>
                       <summary className="flex items-center justify-between px-4 py-3 bg-[#FDFBF7] cursor-pointer list-none select-none">
                         <span className="font-semibold text-sm text-[#0B1D17] truncate">{sk.category}</span>
-                        <div className="flex items-center gap-2 ml-2 flex-shrink-0">
+                        <div className="flex items-center gap-1.5 ml-2 flex-shrink-0">
+                          <button
+                            type="button"
+                            disabled={idx === 0 || isPending}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              const newOrder = [...skills];
+                              const temp = newOrder[idx];
+                              newOrder[idx] = newOrder[idx - 1];
+                              newOrder[idx - 1] = temp;
+                              act(() => actions.updateItemOrders("skills", newOrder.map(item => item.id)), "Urutan diperbarui!");
+                            }}
+                            className="p-1.5 rounded-lg text-[#66756F] hover:bg-gray-200 transition-colors disabled:opacity-30 disabled:hover:bg-transparent"
+                            title="Naikkan Urutan"
+                          >
+                            <ArrowUp size={14} />
+                          </button>
+                          <button
+                            type="button"
+                            disabled={idx === skills.length - 1 || isPending}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              const newOrder = [...skills];
+                              const temp = newOrder[idx];
+                              newOrder[idx] = newOrder[idx + 1];
+                              newOrder[idx + 1] = temp;
+                              act(() => actions.updateItemOrders("skills", newOrder.map(item => item.id)), "Urutan diperbarui!");
+                            }}
+                            className="p-1.5 rounded-lg text-[#66756F] hover:bg-gray-200 transition-colors disabled:opacity-30 disabled:hover:bg-transparent"
+                            title="Turunkan Urutan"
+                          >
+                            <ArrowDown size={14} />
+                          </button>
+                          <div className="w-px h-4 bg-[#E8E2D5] mx-1" />
                           <ChevronDown size={14} className="text-[#66756F]" />
                           <button type="button" onClick={(e) => { e.preventDefault(); act(() => actions.deleteSkillItem(sk.id), "Terhapus."); }} className="p-1.5 rounded-lg text-red-400 hover:bg-red-50 hover:text-red-600 transition-colors"><Trash2 size={14} /></button>
                         </div>
@@ -1325,12 +1480,45 @@ export default function AdminDashboard({
           {activeTab === "projects" && (
             <SectionCard title="Proyek" icon={FolderOpen} count={projects.length}>
               <div className="mt-5 space-y-3">
-                {projects.map((proj) => (
+                {projects.map((proj, idx) => (
                   <div key={proj.id} className="border border-[#E8E2D5] rounded-2xl overflow-hidden">
                     <details>
                       <summary className="flex items-center justify-between px-4 py-3 bg-[#FDFBF7] cursor-pointer list-none select-none">
                         <span className="font-semibold text-sm text-[#0B1D17] truncate">{proj.title}</span>
-                        <div className="flex items-center gap-2 ml-2 flex-shrink-0">
+                        <div className="flex items-center gap-1.5 ml-2 flex-shrink-0">
+                          <button
+                            type="button"
+                            disabled={idx === 0 || isPending}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              const newOrder = [...projects];
+                              const temp = newOrder[idx];
+                              newOrder[idx] = newOrder[idx - 1];
+                              newOrder[idx - 1] = temp;
+                              act(() => actions.updateItemOrders("projects", newOrder.map(item => item.id)), "Urutan diperbarui!");
+                            }}
+                            className="p-1.5 rounded-lg text-[#66756F] hover:bg-gray-200 transition-colors disabled:opacity-30 disabled:hover:bg-transparent"
+                            title="Naikkan Urutan"
+                          >
+                            <ArrowUp size={14} />
+                          </button>
+                          <button
+                            type="button"
+                            disabled={idx === projects.length - 1 || isPending}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              const newOrder = [...projects];
+                              const temp = newOrder[idx];
+                              newOrder[idx] = newOrder[idx + 1];
+                              newOrder[idx + 1] = temp;
+                              act(() => actions.updateItemOrders("projects", newOrder.map(item => item.id)), "Urutan diperbarui!");
+                            }}
+                            className="p-1.5 rounded-lg text-[#66756F] hover:bg-gray-200 transition-colors disabled:opacity-30 disabled:hover:bg-transparent"
+                            title="Turunkan Urutan"
+                          >
+                            <ArrowDown size={14} />
+                          </button>
+                          <div className="w-px h-4 bg-[#E8E2D5] mx-1" />
                           <ChevronDown size={14} className="text-[#66756F]" />
                           <button type="button" onClick={(e) => { e.preventDefault(); act(() => actions.deleteProjectItem(proj.id), "Terhapus."); }} className="p-1.5 rounded-lg text-red-400 hover:bg-red-50 hover:text-red-600 transition-colors"><Trash2 size={14} /></button>
                         </div>
@@ -1363,12 +1551,45 @@ export default function AdminDashboard({
           {activeTab === "organizations" && (
             <SectionCard title="Organisasi" icon={Users} count={organizations.length}>
               <div className="mt-5 space-y-3">
-                {organizations.map((org) => (
+                {organizations.map((org, idx) => (
                   <div key={org.id} className="border border-[#E8E2D5] rounded-2xl overflow-hidden">
                     <details>
                       <summary className="flex items-center justify-between px-4 py-3 bg-[#FDFBF7] cursor-pointer list-none select-none">
                         <span className="font-semibold text-sm text-[#0B1D17] truncate">{org.title}</span>
-                        <div className="flex items-center gap-2 ml-2 flex-shrink-0">
+                        <div className="flex items-center gap-1.5 ml-2 flex-shrink-0">
+                          <button
+                            type="button"
+                            disabled={idx === 0 || isPending}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              const newOrder = [...organizations];
+                              const temp = newOrder[idx];
+                              newOrder[idx] = newOrder[idx - 1];
+                              newOrder[idx - 1] = temp;
+                              act(() => actions.updateItemOrders("organizations", newOrder.map(item => item.id)), "Urutan diperbarui!");
+                            }}
+                            className="p-1.5 rounded-lg text-[#66756F] hover:bg-gray-200 transition-colors disabled:opacity-30 disabled:hover:bg-transparent"
+                            title="Naikkan Urutan"
+                          >
+                            <ArrowUp size={14} />
+                          </button>
+                          <button
+                            type="button"
+                            disabled={idx === organizations.length - 1 || isPending}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              const newOrder = [...organizations];
+                              const temp = newOrder[idx];
+                              newOrder[idx] = newOrder[idx + 1];
+                              newOrder[idx + 1] = temp;
+                              act(() => actions.updateItemOrders("organizations", newOrder.map(item => item.id)), "Urutan diperbarui!");
+                            }}
+                            className="p-1.5 rounded-lg text-[#66756F] hover:bg-gray-200 transition-colors disabled:opacity-30 disabled:hover:bg-transparent"
+                            title="Turunkan Urutan"
+                          >
+                            <ArrowDown size={14} />
+                          </button>
+                          <div className="w-px h-4 bg-[#E8E2D5] mx-1" />
                           <ChevronDown size={14} className="text-[#66756F]" />
                           <button type="button" onClick={(e) => { e.preventDefault(); act(() => actions.deleteOrganizationItem(org.id), "Terhapus."); }} className="p-1.5 rounded-lg text-red-400 hover:bg-red-50 hover:text-red-600 transition-colors"><Trash2 size={14} /></button>
                         </div>
@@ -1397,16 +1618,120 @@ export default function AdminDashboard({
             </SectionCard>
           )}
 
+          {/* ── Trainings ───────────────────────────────────────────────── */}
+          {activeTab === "trainings" && (
+            <SectionCard title="Pelatihan K3" icon={Award} count={trainings.length}>
+              <div className="mt-5 space-y-3">
+                {trainings.map((train, idx) => (
+                  <div key={train.id} className="border border-[#E8E2D5] rounded-2xl overflow-hidden">
+                    <details>
+                      <summary className="flex items-center justify-between px-4 py-3 bg-[#FDFBF7] cursor-pointer list-none select-none">
+                        <span className="font-semibold text-sm text-[#0B1D17] truncate">{train.title}</span>
+                        <div className="flex items-center gap-1.5 ml-2 flex-shrink-0">
+                          <button
+                            type="button"
+                            disabled={idx === 0 || isPending}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              const newOrder = [...trainings];
+                              const temp = newOrder[idx];
+                              newOrder[idx] = newOrder[idx - 1];
+                              newOrder[idx - 1] = temp;
+                              act(() => actions.updateItemOrders("trainings", newOrder.map(item => item.id)), "Urutan diperbarui!");
+                            }}
+                            className="p-1.5 rounded-lg text-[#66756F] hover:bg-gray-200 transition-colors disabled:opacity-30 disabled:hover:bg-transparent"
+                            title="Naikkan Urutan"
+                          >
+                            <ArrowUp size={14} />
+                          </button>
+                          <button
+                            type="button"
+                            disabled={idx === trainings.length - 1 || isPending}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              const newOrder = [...trainings];
+                              const temp = newOrder[idx];
+                              newOrder[idx] = newOrder[idx + 1];
+                              newOrder[idx + 1] = temp;
+                              act(() => actions.updateItemOrders("trainings", newOrder.map(item => item.id)), "Urutan diperbarui!");
+                            }}
+                            className="p-1.5 rounded-lg text-[#66756F] hover:bg-gray-200 transition-colors disabled:opacity-30 disabled:hover:bg-transparent"
+                            title="Turunkan Urutan"
+                          >
+                            <ArrowDown size={14} />
+                          </button>
+                          <div className="w-px h-4 bg-[#E8E2D5] mx-1" />
+                          <ChevronDown size={14} className="text-[#66756F]" />
+                          <button type="button" onClick={(e) => { e.preventDefault(); act(() => actions.deleteTrainingItem(train.id), "Terhapus."); }} className="p-1.5 rounded-lg text-red-400 hover:bg-red-50 hover:text-red-600 transition-colors"><Trash2 size={14} /></button>
+                        </div>
+                      </summary>
+                      <form onSubmit={(e) => {
+                        e.preventDefault();
+                        const fd = new FormData(e.currentTarget);
+                        act(() => actions.upsertTrainingItem({ id: train.id, title: fd.get("title") as string, organizer: fd.get("organizer") as string, year: fd.get("year") as string, credentialId: fd.get("credentialId") as string, description: fd.get("description") as string, highlights: fd.get("highlights") as string, link: fd.get("link") as string }));
+                      }} className="px-4 pb-4 border-t border-[#E8E2D5] grid grid-cols-2 gap-3 pt-3">
+                        <div className="col-span-2"><BilingualField label="Nama Pelatihan / Sertifikasi" name="title" defaultValue={train.title} /></div>
+                        <BilingualField label="Penyelenggara / Lembaga" name="organizer" defaultValue={train.organizer} />
+                        <MonthYearPickerField name="year" defaultValue={train.year} />
+                        <div className="col-span-2"><Field label="No. Kredensial / Sertifikat (Opsional)" name="credentialId" defaultValue={train.credentialId || ""} multiline={false} /></div>
+                        <div className="col-span-2"><BilingualField label="Deskripsi Pelatihan" name="description" defaultValue={train.description} multiline /></div>
+                        <div className="col-span-2"><Field label="URL Sertifikat / Link Luar (Opsional)" name="link" defaultValue={train.link || ""} multiline={false} /></div>
+                        <div className="col-span-2"><HighlightsEditor defaultValue={train.highlights} name="highlights" label="Materi & Keahlian Utama" buttonText="Tambah Item Keahlian" /></div>
+                        <div className="col-span-2"><button type="submit" disabled={isPending} className="flex items-center gap-2 px-4 py-2 bg-[#6B0F0F] text-white text-xs font-bold rounded-xl hover:bg-[#540c0c] disabled:opacity-50"><Save size={12} /> Simpan</button></div>
+                      </form>
+                    </details>
+                  </div>
+                ))}
+              </div>
+              <button onClick={() => act(() => actions.upsertTrainingItem({ title: "Pelatihan K3 Baru", organizer: "Lembaga K3", year: "Jan 2025 | Jan 2025", credentialId: "", description: "", highlights: "[]", link: "" }), "Ditambahkan!")} disabled={isPending} className="mt-4 flex items-center gap-2 px-4 py-2 border-2 border-dashed border-[#E8E2D5] text-[#66756F] text-sm rounded-xl hover:border-[#6B0F0F] hover:text-[#6B0F0F] transition-colors disabled:opacity-50">
+                <Plus size={14} /> Tambah Pelatihan
+              </button>
+            </SectionCard>
+          )}
+
           {/* ── Publications ────────────────────────────────────────────── */}
           {activeTab === "publications" && (
             <SectionCard title="Publikasi" icon={FileText} count={publications.length}>
               <div className="mt-5 space-y-3">
-                {publications.map((pub) => (
+                {publications.map((pub, idx) => (
                   <div key={pub.id} className="border border-[#E8E2D5] rounded-2xl overflow-hidden">
                     <details>
                       <summary className="flex items-center justify-between px-4 py-3 bg-[#FDFBF7] cursor-pointer list-none select-none">
                         <span className="font-semibold text-sm text-[#0B1D17] truncate">{pub.title}</span>
-                        <div className="flex items-center gap-2 ml-2 flex-shrink-0">
+                        <div className="flex items-center gap-1.5 ml-2 flex-shrink-0">
+                          <button
+                            type="button"
+                            disabled={idx === 0 || isPending}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              const newOrder = [...publications];
+                              const temp = newOrder[idx];
+                              newOrder[idx] = newOrder[idx - 1];
+                              newOrder[idx - 1] = temp;
+                              act(() => actions.updateItemOrders("publications", newOrder.map(item => item.id)), "Urutan diperbarui!");
+                            }}
+                            className="p-1.5 rounded-lg text-[#66756F] hover:bg-gray-200 transition-colors disabled:opacity-30 disabled:hover:bg-transparent"
+                            title="Naikkan Urutan"
+                          >
+                            <ArrowUp size={14} />
+                          </button>
+                          <button
+                            type="button"
+                            disabled={idx === publications.length - 1 || isPending}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              const newOrder = [...publications];
+                              const temp = newOrder[idx];
+                              newOrder[idx] = newOrder[idx + 1];
+                              newOrder[idx + 1] = temp;
+                              act(() => actions.updateItemOrders("publications", newOrder.map(item => item.id)), "Urutan diperbarui!");
+                            }}
+                            className="p-1.5 rounded-lg text-[#66756F] hover:bg-gray-200 transition-colors disabled:opacity-30 disabled:hover:bg-transparent"
+                            title="Turunkan Urutan"
+                          >
+                            <ArrowDown size={14} />
+                          </button>
+                          <div className="w-px h-4 bg-[#E8E2D5] mx-1" />
                           <ChevronDown size={14} className="text-[#66756F]" />
                           <button type="button" onClick={(e) => { e.preventDefault(); act(() => actions.deletePublicationItem(pub.id), "Terhapus."); }} className="p-1.5 rounded-lg text-red-400 hover:bg-red-50 hover:text-red-600 transition-colors"><Trash2 size={14} /></button>
                         </div>

@@ -56,6 +56,7 @@ model EducationItem {
   gpa         String
   description String
   highlights  String // JSON string
+  order       Int     @default(0)
 }
 
 model ExperienceItem {
@@ -66,12 +67,14 @@ model ExperienceItem {
   description String
   highlights  String // JSON string
   gallery     String // JSON string
+  order       Int     @default(0)
 }
 
 model SkillItem {
   id       Int    @id @default(autoincrement())
   category String
   items    String // JSON string
+  order    Int    @default(0)
 }
 
 model ProjectItem {
@@ -83,6 +86,7 @@ model ProjectItem {
   description String
   highlights  String // JSON string
   gallery     String // JSON string
+  order       Int    @default(0)
 }
 
 model OrganizationItem {
@@ -94,6 +98,7 @@ model OrganizationItem {
   details     String
   highlights  String // JSON string
   gallery     String // JSON string
+  order       Int     @default(0)
 }
 
 model PublicationItem {
@@ -105,4 +110,17 @@ model PublicationItem {
   details     String
   highlights  String // JSON string
   link        String @default("")
+  order       Int    @default(0)
+}
+
+model TrainingItem {
+  id          Int    @id @default(autoincrement())
+  title       String
+  organizer   String
+  year        String
+  credentialId String @default("")
+  description String
+  highlights  String // JSON string
+  link        String @default("")
+  order       Int    @default(0)
 }

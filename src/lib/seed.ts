@@ -484,6 +484,57 @@ export async function seedDatabase() {
       }
       console.log("Seeded Publication items.");
     }
+
+    // 8. Seed TrainingItem
+    const trainCount = await prisma.trainingItem.count();
+    if (trainCount === 0) {
+      const trains = [
+        {
+          title: "Pelatihan & Sertifikasi Ahli K3 Umum (AK3U) Kemnaker RI | General OHS Expert Certification (AK3U) Ministry of Manpower RI",
+          organizer: "Kementerian Ketenagakerjaan RI & PJK3 Terakreditasi | Ministry of Manpower RI & Accredited OHS Provider",
+          year: "2025",
+          credentialId: "AK3U-RI-2025-0892",
+          description: "Pelatihan intensif regulasi keselamatan kerja, norma K3, identifikasi bahaya di tempat kerja, serta tata cara pelaporan kecelakaan dan kelembagaan P2K3. | Intensive training on occupational safety regulations, OHS standards, workplace hazard identification, accident reporting procedures, and OHS committee (P2K3) organization.",
+          highlights: JSON.stringify([
+            "Analisis Kepatuhan Regulasi K3 Nasional (UU No. 1/1970) | National OHS Regulatory Compliance Analysis",
+            "Penyusunan Laporan Audit & Rekomendasi Perbaikan K3 | Preparation of Audit Reports & OHS Improvement Recommendations",
+            "Pemeriksaan Norma K3 Listrik, Bejana Tekan, & Mekanik | Inspection of Electrical, Pressure Vessel, & Mechanical OHS Standards"
+          ]),
+          link: ""
+        },
+        {
+          title: "Pelatihan ISO 45001:2018 Occupational Health & Safety Management System | ISO 45001:2018 OHSMS Training",
+          organizer: "ISO Certification Body & HSE Institute",
+          year: "2025",
+          credentialId: "ISO45001-LA-2025-104",
+          description: "Memahami klausal dan impelementasi ISO 45001:2018, hazard identification, risk assessment, and determining controls (HIRADC), serta audit internal K3. | Understanding the clauses and implementation of ISO 45001:2018, HIRADC risk control, and internal OHS auditing.",
+          highlights: JSON.stringify([
+            "HIRADC & Hazard Identification Methods | Metode Identifikasi Bahaya HIRADC",
+            "Internal Audit Checklist & Non-Conformity Report (NCR) | Ceklis Audit Internal & Laporan NCR",
+            "Manajemen Kesiapsiagaan Tanggap Darurat (Emergency Preparedness) | Emergency Preparedness & Response Management"
+          ]),
+          link: ""
+        },
+        {
+          title: "Pelatihan Pertolongan Pertama Pada Kecelakaan (P3K) & RJP | First Aid & CPR Training",
+          organizer: "Palang Merah Indonesia (PMI) & KSM Batavia",
+          year: "2024",
+          credentialId: "FA-PMI-2024-5512",
+          description: "Pelatihan teknis penanganan kegawatdaruratan medis, pemindahan korban kecelakaan, pembalutan patah tulang, dan resusitasi jantung paru (CPR). | Technical training in medical emergency response, casualty evacuation, fracture splinting, and cardiopulmonary resuscitation (CPR).",
+          highlights: JSON.stringify([
+            "Teknik Resusitasi Jantung Paru (CPR / RJP) | Cardiopulmonary Resuscitation (CPR) Technique",
+            "Pembidaian & Pembalutan Patah Tulang | Splinting & Bandaging Fractures",
+            "Penanganan Pendarahan & Luka Bakar | Hemorrhage & Burn Injury Treatment"
+          ]),
+          link: ""
+        }
+      ];
+
+      for (const train of trains) {
+        await prisma.trainingItem.create({ data: train });
+      }
+      console.log("Seeded Training items.");
+    }
   } catch (err) {
     console.error("Database seeding failed:", err);
   }

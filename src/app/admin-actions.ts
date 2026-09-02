@@ -60,7 +60,7 @@ export async function upsertConfigBatch(pairs: { key: string; value: string }[])
 // ─── Education ────────────────────────────────────────────────────────────────
 
 export async function getEducationItems() {
-  return prisma.educationItem.findMany({ orderBy: { id: "asc" } });
+  return prisma.educationItem.findMany({ orderBy: [{ order: "asc" }, { id: "asc" }] });
 }
 
 export async function upsertEducationItem(data: {
@@ -72,6 +72,7 @@ export async function upsertEducationItem(data: {
   gpa: string;
   description: string;
   highlights: string;
+  order?: number;
 }) {
   await requireAdmin();
   if (data.id) {
@@ -93,7 +94,7 @@ export async function deleteEducationItem(id: number) {
 // ─── Experience ───────────────────────────────────────────────────────────────
 
 export async function getExperienceItems() {
-  return prisma.experienceItem.findMany({ orderBy: { id: "asc" } });
+  return prisma.experienceItem.findMany({ orderBy: [{ order: "asc" }, { id: "asc" }] });
 }
 
 export async function upsertExperienceItem(data: {
@@ -104,6 +105,7 @@ export async function upsertExperienceItem(data: {
   description: string;
   highlights: string;
   gallery: string;
+  order?: number;
 }) {
   await requireAdmin();
   if (data.id) {
@@ -125,13 +127,14 @@ export async function deleteExperienceItem(id: number) {
 // ─── Skills ───────────────────────────────────────────────────────────────────
 
 export async function getSkillItems() {
-  return prisma.skillItem.findMany({ orderBy: { id: "asc" } });
+  return prisma.skillItem.findMany({ orderBy: [{ order: "asc" }, { id: "asc" }] });
 }
 
 export async function upsertSkillItem(data: {
   id?: number;
   category: string;
   items: string;
+  order?: number;
 }) {
   await requireAdmin();
   if (data.id) {
@@ -153,7 +156,7 @@ export async function deleteSkillItem(id: number) {
 // ─── Projects ─────────────────────────────────────────────────────────────────
 
 export async function getProjectItems() {
-  return prisma.projectItem.findMany({ orderBy: { id: "asc" } });
+  return prisma.projectItem.findMany({ orderBy: [{ order: "asc" }, { id: "asc" }] });
 }
 
 export async function upsertProjectItem(data: {
@@ -165,6 +168,7 @@ export async function upsertProjectItem(data: {
   description: string;
   highlights: string;
   gallery: string;
+  order?: number;
 }) {
   await requireAdmin();
   if (data.id) {
@@ -186,7 +190,7 @@ export async function deleteProjectItem(id: number) {
 // ─── Organizations ────────────────────────────────────────────────────────────
 
 export async function getOrganizationItems() {
-  return prisma.organizationItem.findMany({ orderBy: { id: "asc" } });
+  return prisma.organizationItem.findMany({ orderBy: [{ order: "asc" }, { id: "asc" }] });
 }
 
 export async function upsertOrganizationItem(data: {
@@ -198,6 +202,7 @@ export async function upsertOrganizationItem(data: {
   details: string;
   highlights: string;
   gallery: string;
+  order?: number;
 }) {
   await requireAdmin();
   if (data.id) {
@@ -219,7 +224,7 @@ export async function deleteOrganizationItem(id: number) {
 // ─── Publications ─────────────────────────────────────────────────────────────
 
 export async function getPublicationItems() {
-  return prisma.publicationItem.findMany({ orderBy: { id: "asc" } });
+  return prisma.publicationItem.findMany({ orderBy: [{ order: "asc" }, { id: "asc" }] });
 }
 
 export async function upsertPublicationItem(data: {
@@ -231,6 +236,7 @@ export async function upsertPublicationItem(data: {
   details: string;
   highlights: string;
   link: string;
+  order?: number;
 }) {
   await requireAdmin();
   const { id, ...payload } = data;
@@ -246,6 +252,74 @@ export async function upsertPublicationItem(data: {
 export async function deletePublicationItem(id: number) {
   await requireAdmin();
   await prisma.publicationItem.delete({ where: { id } });
+  revalidatePath("/");
+  revalidatePath("/admin");
+}
+
+// ─── Trainings ────────────────────────────────────────────────────────────────
+
+export async function getTrainingItems() {
+  return prisma.trainingItem.findMany({ orderBy: [{ order: "asc" }, { id: "asc" }] });
+}
+
+export async function upsertTrainingItem(data: {
+  id?: number;
+  title: string;
+  organizer: string;
+  year: string;
+  credentialId?: string;
+  description: string;
+  highlights: string;
+  link?: string;
+  order?: number;
+}) {
+  await requireAdmin();
+  const { id, ...payload } = data;
+  if (id) {
+    await prisma.trainingItem.update({ where: { id }, data: payload });
+  } else {
+    await prisma.trainingItem.create({ data: payload });
+  }
+  revalidatePath("/");
+  revalidatePath("/admin");
+}
+
+export async function deleteTrainingItem(id: number) {
+  await requireAdmin();
+  await prisma.trainingItem.delete({ where: { id } });
+  revalidatePath("/");
+  revalidatePath("/admin");
+}
+
+// ─── Reorder Generic Action ───────────────────────────────────────────────────
+
+export async function updateItemOrders(
+  section: "education" | "experience" | "skills" | "projects" | "organizations" | "publications" | "trainings",
+  orderedIds: number[]
+) {
+  await requireAdmin();
+  
+  for (let i = 0; i < orderedIds.length; i++) {
+    const id = orderedIds[i];
+    const order = i;
+    
+    if (section === "education") {
+      await prisma.educationItem.update({ where: { id }, data: { order } });
+    } else if (section === "experience") {
+      await prisma.experienceItem.update({ where: { id }, data: { order } });
+    } else if (section === "skills") {
+      await prisma.skillItem.update({ where: { id }, data: { order } });
+    } else if (section === "projects") {
+      await prisma.projectItem.update({ where: { id }, data: { order } });
+    } else if (section === "organizations") {
+      await prisma.organizationItem.update({ where: { id }, data: { order } });
+    } else if (section === "publications") {
+      await prisma.publicationItem.update({ where: { id }, data: { order } });
+    } else if (section === "trainings") {
+      await prisma.trainingItem.update({ where: { id }, data: { order } });
+    }
+  }
+
   revalidatePath("/");
   revalidatePath("/admin");
 }

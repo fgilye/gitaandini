@@ -9,7 +9,8 @@ import {
   getProjectItems, upsertProjectItem, deleteProjectItem,
   getOrganizationItems, upsertOrganizationItem, deleteOrganizationItem,
   getPublicationItems, upsertPublicationItem, deletePublicationItem,
-  getMessages, deleteMessage, uploadImageAction
+  getTrainingItems, upsertTrainingItem, deleteTrainingItem,
+  getMessages, deleteMessage, uploadImageAction, updateItemOrders
 } from "@/app/admin-actions";
 import AdminDashboard from "./AdminDashboard";
 
@@ -22,10 +23,10 @@ export default async function AdminPage() {
 
   const [
     configRaw, educations, experiences, skills,
-    projects, organizations, publications, messages,
+    projects, organizations, publications, trainings, messages,
   ] = await Promise.all([
     getConfig(), getEducationItems(), getExperienceItems(), getSkillItems(),
-    getProjectItems(), getOrganizationItems(), getPublicationItems(), getMessages(),
+    getProjectItems(), getOrganizationItems(), getPublicationItems(), getTrainingItems(), getMessages(),
   ]);
 
   const config = Object.fromEntries(configRaw.map((c) => [c.key, c.value]));
@@ -39,6 +40,7 @@ export default async function AdminPage() {
       projects={projects}
       organizations={organizations}
       publications={publications}
+      trainings={trainings}
       messages={messages}
       actions={{
         logoutAction,
@@ -56,8 +58,11 @@ export default async function AdminPage() {
         deleteOrganizationItem,
         upsertPublicationItem,
         deletePublicationItem,
+        upsertTrainingItem,
+        deleteTrainingItem,
         deleteMessage,
         uploadImageAction,
+        updateItemOrders,
       }}
     />
   );

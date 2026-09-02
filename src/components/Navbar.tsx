@@ -15,6 +15,7 @@ export default function Navbar() {
     { name: t("Pendidikan", "Education"), href: "#education" },
     { name: t("Pengalaman", "Experience"), href: "#experience" },
     { name: t("Keahlian", "Skills"), href: "#skills" },
+    { name: t("Pelatihan", "Trainings"), href: "#trainings" },
     { name: t("Proyek", "Projects"), href: "#projects" },
     { name: t("Organisasi", "Organizations"), href: "#organizations" },
     { name: t("Publikasi", "Publications"), href: "#publications" },
