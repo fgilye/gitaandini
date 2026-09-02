@@ -58,13 +58,13 @@ export default function Navbar() {
             </div>
 
             {/* Desktop nav */}
-            <div className="hidden lg:flex items-center gap-6">
-              <div className="flex gap-1">
+            <div className="hidden lg:flex items-center gap-3">
+              <div className="flex gap-0.5">
                 {menuItems.map((item) => (
                   <a
                     key={item.name}
                     href={item.href}
-                    className="text-[11px] font-mono uppercase tracking-wider text-[#66756F] hover:text-[#6B0F0F] hover:bg-[#6B0F0F]/10 transition-all py-1.5 px-3 rounded-full"
+                    className="text-[10.5px] font-mono uppercase tracking-tight text-[#66756F] hover:text-[#6B0F0F] hover:bg-[#6B0F0F]/10 transition-all py-1.5 px-2.5 rounded-full font-medium"
                   >
                     {item.name}
                   </a>
@@ -74,9 +74,9 @@ export default function Navbar() {
               {/* Login Button */}
               <a
                 href="/login"
-                className="flex items-center gap-1.5 bg-[#6B0F0F] hover:bg-[#540c0c] text-white text-[11px] font-mono font-bold uppercase tracking-wider px-4 py-2 rounded-full transition-all duration-200 shadow-sm hover:shadow-md hover:scale-105"
+                className="flex items-center gap-1 bg-[#6B0F0F] hover:bg-[#540c0c] text-white text-[10.5px] font-mono font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full transition-all duration-200 shadow-sm hover:shadow-md hover:scale-105 shrink-0"
               >
-                <LogIn size={13} />
+                <LogIn size={12} />
                 <span>{t("Masuk", "Login")}</span>
               </a>
             </div>
