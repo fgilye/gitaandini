@@ -116,7 +116,7 @@ export default function Hero({ config }: { config: any }) {
               download
               className="px-6 py-3.5 bg-[#6B0F0F] hover:bg-[#540c0c] text-white font-sans text-xs font-bold uppercase tracking-wider flex items-center gap-2 border border-[#6B0F0F]/20 transition-all rounded-full shadow-lg"
             >
-              <FileText size={14} /> {t("Unduh CV & Portofolio", "Download CV & Portfolio")}
+              <FileText size={14} /> {t("Unduh CV", "Download CV")}
             </a>
             <a
               href="#about"
